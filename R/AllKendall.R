@@ -14,6 +14,7 @@
 #' in "r" to sequence "j" in "seqs".
 #' @author Yunlong Jiao
 #' @keywords Kendall distance
+#' @export
 #' @examples
 #' 
 #' ## Not run:

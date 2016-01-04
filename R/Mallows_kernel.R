@@ -1,4 +1,5 @@
 
+#' @export
 Mallows_kernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, iterin = iter, key = "kernelMallows", 
                            logsumexp.trick = TRUE, exh = FALSE)
 {

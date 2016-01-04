@@ -1,4 +1,6 @@
 
+#' @export
+#' 
 gaussianmix <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.control = 1e-3, key = "kernelGaussian", 
                         verbose = FALSE, cov.constr = TRUE, cal.mallowslike = TRUE, mc = 0.25)
 {

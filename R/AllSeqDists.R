@@ -6,6 +6,7 @@
 #' @param seqs Matrix or data frame of sequences.
 #' @return Vector of the distances from the sequences to 1:N.
 #' @author Erik Gregory
+#' @export
 #' @keywords Kendall Distance
 
 

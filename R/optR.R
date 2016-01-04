@@ -1,4 +1,6 @@
 
+#' @export
+#' 
 optR <- function(rold, zz, lam, data.info, perm.info)
 {
   negloglike_by_r <- function(r, zz, lam, data.info, perm.info){

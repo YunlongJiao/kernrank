@@ -20,6 +20,7 @@
 #' "Mixtures of distance-based models for ranking data". Thomas 
 #' Brendan Murphy & Donal Martin. 1 April 2002. Computational Statistics & 
 #' Data Analysis 41 (2003) 645-655.
+#' @export
 #' @keywords expectation maximization
 #' 
 

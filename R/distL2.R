@@ -15,6 +15,7 @@
 #' @return Matrix where output[i, j] represents the squred euclidean distance 
 #' from sequence "i" in "r" to sequence "j" in "seqs", multiplied by mc.
 #' @author Yunlong Jiao
+#' @export
 #' @keywords Squared Euclidean distance
 
 distL2 <- function(r, centers, mc = 0.25)

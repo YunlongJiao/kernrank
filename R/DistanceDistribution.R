@@ -9,6 +9,7 @@
 #' the modal sequence of each sequence in N! space, and the values represent the number of sequences at that distance in
 #' the sequence space.
 #' @author Erik Gregory
+#' @export
 #' @keywords bubblesort Kendall
 #' # DistanceDistribution(10)
 

@@ -9,6 +9,7 @@
 #' @return Matrix of -1s, 1s, and 0s representing pairwise comparisons of
 #' vector values.
 #' @author Yunlong Jiao
+#' @export
 #' @references Jiao, Yunlong and Vert, Jean-Philippe. The Kendall and Mallows Kernels for Permutations.
 #' Proceedings of The 32nd International Conference on Machine Learning (ICML), JMLR: W&CP 37, 1935-1944, 2015.
 #' @keywords Kendall Distance

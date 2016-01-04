@@ -12,6 +12,7 @@
 #' @param logsumexp.trick Logical. Use logsumexp trick to compute log-likelihood.
 #' @return See output of FormatOut.
 #' @author Yunlong Jiao
+#' @export
 #' @references "Mixtures of distance-based models for ranking data". Thomas 
 #' Brendan Murphy & Donal Martin. 1 April 2002. Computational Statistics & 
 #' Data Analysis 41 (2003) 645-655.

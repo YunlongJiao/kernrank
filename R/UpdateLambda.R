@@ -1,4 +1,6 @@
 
+#' @export
+#' 
 UpdateLambda <- function(r, R, z, G, all.dists.data = NULL, dists.to.Rg = NULL, dists.table = NULL, top.bound = 1000, eqlam)
 {
   # upper and lower bound for search lambda AND lower/upper bound for expected loglike

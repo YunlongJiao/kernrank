@@ -1,4 +1,6 @@
 
+#' @export
+#' 
 MallowsCV <- function(datas, G, weights = NULL, ..., seed=26921332, nfolds=5, nrepeats=10, ntry = 3, logsumexp.trick = TRUE)
 {
   # @param weights cannot contain 0 and should be of equal length with nrow of datas. NOTE cv split is done by partitioning weights!

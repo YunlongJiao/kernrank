@@ -8,6 +8,7 @@
 #' @param bycol Logical. Computes by cols if a matrix is provided.
 #' @return Log-Sum-Exp of the numbers in vector or row-/column-wise Log-Sum-Exp of the numbers in matrix.
 #' @author Yunlong Jiao
+#' @export
 #' @references https://hips.seas.harvard.edu/blog/2013/01/09/computing-log-sum-exp/
 #' @examples
 #' 

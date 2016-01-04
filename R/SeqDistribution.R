@@ -8,6 +8,7 @@
 #' @param N Length of the ranking.  Preferrably less than 9.
 #' @return Vector of Kendall distances from 1:N to each sequence in N! space.
 #' @author Erik Gregory
+#' @export
 #' @keywords distance bubblesort
 
 SeqDistribution <-

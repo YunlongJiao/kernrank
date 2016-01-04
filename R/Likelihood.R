@@ -1,4 +1,6 @@
 
+#' @export
+#' 
 Likelihood <- function(z, p, C.lam, lambda, all.dists.data, weights, use.logC = FALSE)
 {
   if (use.logC) {
