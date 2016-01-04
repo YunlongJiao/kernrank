@@ -1,0 +1,10 @@
+Package: kernrank 
+Type: Package
+Title: kernrank package
+Version: 0.0
+Date: 2016-01-04
+Depends: R (>= 3.2), pcaPP, caret, combinat, mvtnorm
+Author: Yunlong Jiao <yunlong.jiao@mines-paristech.fr>
+Maintainer: Yunlong Jiao <yunlong.jiao@mines-paristech.fr>
+Description: kernrank implements kernels and kernel methods for analyzing rank data, typically permutations.
+License: GPL (>= 2)
