@@ -1,0 +1,15 @@
+Package: kernrank
+Title: kernrank package
+Version: 0.0
+Authors@R: person("Yunlong", "Jiao", email = "yunlong.jiao@mines-paristech.fr", role = c("aut", "cre"))
+Description: kernrank implements kernels and kernel methods for analyzing rank
+    data, typically permutations.
+Depends:
+    R (>= 3.2),
+    pcaPP,
+    caret,
+    combinat,
+    mvtnorm
+License: GPL (>= 2)
+LazyData: true
+RoxygenNote: 5.0.1.9000
