@@ -1,6 +1,4 @@
 
-#' @export
-#' 
 C_lam <- function(lambda, dists.table = NULL, dists.to.Rg = NULL, return.logC = FALSE)
 {
   if (!is.null(dists.table)) {

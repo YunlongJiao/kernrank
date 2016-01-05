@@ -2,36 +2,40 @@
 % Please edit documentation in R/UpdateR.R
 \name{UpdateR}
 \alias{UpdateR}
-\title{Update modal sequences in each cluster.}
+\title{Common ranking aggregation methods.}
 \usage{
-UpdateR(r, z, infos = NULL, perm = NULL, key)
+UpdateR(r, z = NULL, infos = NULL, perm = NULL, key = c("borda",
+  "copeland", "brute"))
 }
 \arguments{
-\item{r}{Matrix of sequences being clustered.}
+\item{r}{Matrix of sequences being clustered. Permutations in rows.}
 
-\item{z}{Probability of cluster membership for each sequence and each
-cluster.}
+\item{z}{Vector of weights or matrix of probability of cluster membership 
+for each sequence and each cluster.}
 
-\item{infos}{The KendallInfo matrix for "r".}
+\item{infos}{The KendallInfo matrix for "r". Optional for speeding up computation.}
 
-\item{perm}{Full list of permutations for brute search.}
+\item{perm}{Full list of permutations for brute-force search of optimal center.}
 
-\item{key}{Character. Rank aggregation method to define centers.}
+\item{key}{Character. Ranking aggregation method to define centers.}
 }
 \value{
-New cluster centers for each cluster.
+List. Consensus ranking or new cluster centers for each cluster.
 }
 \description{
-Maximizes the likelihood of the data by updating the cluster centers of the
-model.
+Used in EM algorithm for fitting Mallows model to update modal sequences 
+in each cluster.
+}
+\examples{
+## Not run:
+
+r <- do.call("rbind", list(1:5, 5:1, c(2,4,1,5,3)))
+UpdateR(r, key = "borda")
+
+## End(Not run)
 }
 \author{
 Yunlong Jiao
-}
-\references{
-"Mixtures of distance-based models for ranking data". Thomas 
-Brendan Murphy & Donal Martin. 1 April 2002. Computational Statistics & 
-Data Analysis 41 (2003) 645-655.
 }
 \keyword{center}
 \keyword{cluster}

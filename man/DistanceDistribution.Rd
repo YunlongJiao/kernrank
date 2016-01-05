@@ -18,11 +18,16 @@ the sequence space.
 This function counts the number of fully-ordered vectors at each distance in
 N! space.
 }
+\examples{
+## Not run:
+
+# DistanceDistribution(10)
+
+## End(Not run)
+}
 \author{
 Erik Gregory
 }
-\keyword{#}
-\keyword{DistanceDistribution(10)}
 \keyword{Kendall}
 \keyword{bubblesort}
 

@@ -1,26 +1,36 @@
-#' Update modal sequences in each cluster.
+#' Common ranking aggregation methods.
 #' 
-#' Maximizes the likelihood of the data by updating the cluster centers of the
-#' model.
+#' Used in EM algorithm for fitting Mallows model to update modal sequences 
+#' in each cluster.
 #' 
-#' @param r Matrix of sequences being clustered.
-#' @param z Probability of cluster membership for each sequence and each
-#' cluster.
-#' @param infos The KendallInfo matrix for "r".
-#' @param perm Full list of permutations for brute search.
-#' @param key Character. Rank aggregation method to define centers.
-#' @return New cluster centers for each cluster.
+#' @param r Matrix of sequences being clustered. Permutations in rows.
+#' @param z Vector of weights or matrix of probability of cluster membership 
+#' for each sequence and each cluster.
+#' @param infos The KendallInfo matrix for "r". Optional for speeding up computation. 
+#' @param perm Full list of permutations for brute-force search of optimal center.
+#' @param key Character. Ranking aggregation method to define centers.
+#' @return List. Consensus ranking or new cluster centers for each cluster.
 #' @author Yunlong Jiao
 #' @export
-#' @references "Mixtures of distance-based models for ranking data". Thomas 
-#' Brendan Murphy & Donal Martin. 1 April 2002. Computational Statistics & 
-#' Data Analysis 41 (2003) 645-655.
 #' @keywords cluster center
+#' @examples 
+#' ## Not run:
 #' 
+#' r <- do.call("rbind", list(1:5, 5:1, c(2,4,1,5,3)))
+#' UpdateR(r, key = "borda")
 #' 
+#' ## End(Not run)
 
-UpdateR <- function(r, z, infos = NULL, perm = NULL, key)
+UpdateR <- function(r, z = NULL, infos = NULL, perm = NULL, key = c("borda", "copeland", "brute"))
 {
+  if (is.null(z)) {
+    z <- rep(1, nrow(r))
+  }
+  
+  if (is.vector(z)) {
+    z <- matrix(z, ncol = 1)
+  }
+  
   if (grepl("brute", key)) {
     # DO NOT RUN for over-sized permutation / rewrite !
     dists <- AllKendall(r = r, seqs = perm, data.info = infos)
@@ -52,7 +62,7 @@ UpdateR <- function(r, z, infos = NULL, perm = NULL, key)
       rank(cent, ties.method = "first")
     })
   } else {
-    stop("Unable to pick UpdateR function")
+    stop("Unable to pick UpdateR function. Please specify ", sQuote("key"), " to be one of the following : borda, copeland, brute!")
   }
   return(R)
 }

@@ -11,7 +11,12 @@
 #' @author Erik Gregory
 #' @export
 #' @keywords bubblesort Kendall
+#' @examples
+#' ## Not run:
+#' 
 #' # DistanceDistribution(10)
+#' 
+#' ## End(Not run)
 
 DistanceDistribution <-
 function(N = 3) {

@@ -11,7 +11,6 @@
 #' @export
 #' @references https://hips.seas.harvard.edu/blog/2013/01/09/computing-log-sum-exp/
 #' @examples
-#' 
 #' ## Not run:
 #' 
 #' x <- c(-1000, -999, -1000)

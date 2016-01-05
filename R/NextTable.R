@@ -9,7 +9,6 @@
 #' @param N.last N
 #' @return Table of distances in (N+1)! space.
 #' @author Erik Gregory
-#' @export
 #' @keywords bubblesort Kendall
 
 NextTable <-

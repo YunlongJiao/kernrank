@@ -1,6 +1,4 @@
 
-#' @export
-#' 
 Lambda <- function(lambda, rhs, dists = NULL, dists.table = NULL)
 {
   if (!is.null(dists)) {

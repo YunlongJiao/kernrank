@@ -1,6 +1,6 @@
-
-#' @export
+#' @importFrom stats uniroot
 #' 
+
 UpdateLambda <- function(r, R, z, G, all.dists.data = NULL, dists.to.Rg = NULL, dists.table = NULL, top.bound = 1000, eqlam)
 {
   # upper and lower bound for search lambda AND lower/upper bound for expected loglike
@@ -55,9 +55,9 @@ UpdateLambda <- function(r, R, z, G, all.dists.data = NULL, dists.to.Rg = NULL, 
       sum(zcol * ss) / sum(zcol) - rhs
     }
     if (sign(flower) != sign(fupper)) {
-      lambda <- uniroot(LHS2lam, interval = c(0, top.bound), 
-                        rhs = rhs, dists.to.Rg = dists.to.Rg, zcol = zcol, 
-                        f.lower = flower, f.upper = fupper)$root
+      lambda <- stats::uniroot(LHS2lam, interval = c(0, top.bound), 
+                               rhs = rhs, dists.to.Rg = dists.to.Rg, zcol = zcol, 
+                               f.lower = flower, f.upper = fupper)$root
     } else {
       if (is.finite(likeupp) && likeupp > likelow) {
         warning("Solution Exceeded top bound, defaulting to top.bound = ", top.bound)
@@ -77,9 +77,9 @@ UpdateLambda <- function(r, R, z, G, all.dists.data = NULL, dists.to.Rg = NULL, 
       # Find the root of the Lambda function, to 
       # determine lambda.
       if (sign(flower) != sign(fupper)) {
-        lambda[i] <- uniroot(Lambda, interval = c(0, top.bound), 
-                             rhs = rhs[i], dists = dists.to.Rg[ ,i], dists.table = dists.table, 
-                             f.lower = flower, f.upper = fupper)$root
+        lambda[i] <- stats::uniroot(Lambda, interval = c(0, top.bound), 
+                                    rhs = rhs[i], dists = dists.to.Rg[ ,i], dists.table = dists.table, 
+                                    f.lower = flower, f.upper = fupper)$root
       } else {
         if (is.finite(likeupp[i]) && likeupp[i] > likelow[i]) {
           warning("Solution Exceeded top bound, defaulting to top.bound = ", top.bound)

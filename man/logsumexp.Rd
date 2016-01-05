@@ -20,7 +20,6 @@ Log-Sum-Exp of the numbers in vector or row-/column-wise Log-Sum-Exp of the numb
 Computes log-sum-exp of a series of (typically large in absolute value) numbers with a trick
 }
 \examples{
-
 ## Not run:
 
 x <- c(-1000, -999, -1000)

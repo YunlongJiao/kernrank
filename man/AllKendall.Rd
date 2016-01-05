@@ -24,7 +24,6 @@ Calculates all of the Kendall's distances between two different sets of
 rankings.
 }
 \examples{
-
 ## Not run:
 
 data1 <- do.call("rbind", list(1:5, 5:1, c(3, 2, 1, 4, 5)))

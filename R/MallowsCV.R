@@ -1,9 +1,28 @@
-
-#' @export
+#' Fits a Mallows mixture model to ranking data.
 #' 
+#' Fits the Mallows mixture model to full ranking data, using
+#' Kendall distance and an EM algorithm, for clustering permutations.
+#' 
+#' 
+#' @param datas Matrix of fully-ranked data or permutations.
+#' @param G Number of modes, 2 or greater.
+#' @param weights Vector of frequencies of each permutation observed,
+#' which cannot contain 0 and should be of equal length with nrow of datas since cv split is done by partitioning weights!
+#' @param ... Arguments passed to main function Mallows.
+#' @param nfolds nfold-fold cv created each time.
+#' @param nrepeats cv repeated nrepeats times.
+#' @param ntry Number of random initializations to restart each run and best fit with max likelihood chosen.
+#' @param logsumexp.trick Logical. Use logsumexp trick to compute log-likelihood.
+#' @return See output of FormatOut.
+#' @author Yunlong Jiao
+#' @importFrom caret createMultiFolds
+#' @export
+#' @keywords cluster Mallows mixture
+#' 
+
 MallowsCV <- function(datas, G, weights = NULL, ..., seed=26921332, nfolds=5, nrepeats=10, ntry = 3, logsumexp.trick = TRUE)
 {
-  # @param weights cannot contain 0 and should be of equal length with nrow of datas. NOTE cv split is done by partitioning weights!
+  # @param weights 
   # @param nfolds,nrepeats create nfold-fold cv repeated nrepeats times
   # @param ntry algorithm running ntry times for training set trying to avoid local maxima
   
@@ -15,7 +34,7 @@ MallowsCV <- function(datas, G, weights = NULL, ..., seed=26921332, nfolds=5, nr
   perm.info <- KendallInfo(perm)
   
   nsample <- sum(weights)
-  foldIndices <- createMultiFolds(1:nsample, k=nfolds, times=nrepeats)
+  foldIndices <- caret::createMultiFolds(1:nsample, k=nfolds, times=nrepeats)
   
   wcumsum <- c(0, cumsum(weights))
   weightIndices <- lapply(foldIndices, function(i){

@@ -1,6 +1,4 @@
 
-#' @export
-#' 
 FormatOut <- function(R, p, lambda, z, datas, likelihood, all.dists.data, weights, key)
 {
   # Find which cluster the individual belongs to.
