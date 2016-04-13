@@ -1,38 +1,48 @@
-#' Common ranking aggregation methods.
+#' Common ranking aggregation methods
 #' 
-#' Used in EM algorithm for fitting Mallows model to update modal sequences 
-#' in each cluster.
+#' Used to update modal sequences of each cluster in the EM algorithm when fitting Mallows mixture models.
 #' 
-#' @param r Matrix of sequences being clustered. Permutations in rows.
-#' @param z Vector of weights or matrix of probability of cluster membership 
-#' for each sequence and each cluster.
-#' @param infos The KendallInfo matrix for "r". Optional for speeding up computation. 
-#' @param perm Full list of permutations for brute-force search of optimal center.
-#' @param key Character. Ranking aggregation method to define centers.
-#' @return List. Consensus ranking or new cluster centers for each cluster.
+#' @param r A vector or a matrix of sequences in rows.
+#' @param z A vector of weights/frequencies of observations or a matrix of probability of cluster membership 
+#' for each sequence and each cluster. Set by default a constant vector of 1.
+#' @param infos The result of KendallInfo(r). Optional for speeding up computation. 
+#' @param perm A matrix of full permutations for brute-force search of optimal Kemeny consensus. Only effective for "key" equal to "brute".
+#' @param key A character string indicating the ranking aggregation method to find centers.
+#' \itemize{
+#' \item \emph{borda} denotes the Borda count
+#' \item \emph{copeland} denotes the Copeland's aggregated ranking
+#' \item \emph{brute} denotes the optimal Kemeny consensus found by brute-force search
+#' }
+#' @return List of length 1 if "z" is a vector, or ncol(z) if "z" is a matrix, each entry being the modal sequence in each cluster.
 #' @author Yunlong Jiao
-#' @export
-#' @keywords cluster center
+#' @export 
+#' @keywords rank aggregation
 #' @examples 
-#' ## Not run:
-#' 
 #' r <- do.call("rbind", list(1:5, 5:1, c(2,4,1,5,3)))
-#' UpdateR(r, key = "borda")
+#' UpdateR(r, key = "borda") # Borda count for sequences in "r"
 #' 
-#' ## End(Not run)
 
 UpdateR <- function(r, z = NULL, infos = NULL, perm = NULL, key = c("borda", "copeland", "brute"))
 {
+  if (is.vector(r)) {
+    r <- matrix(r, nrow = 1)
+  } else if (!is.matrix(r)) {
+    r <- as.matrix(r)
+  }
+  
   if (is.null(z)) {
     z <- rep(1, nrow(r))
   }
-  
   if (is.vector(z)) {
     z <- matrix(z, ncol = 1)
   }
   
   if (grepl("brute", key)) {
-    # DO NOT RUN for over-sized permutation / rewrite !
+    # DO NOT RUN for over-sized permutation !
+    abils <- ncol(r)
+    if (is.null(perm)) {
+      perm <- do.call("rbind", permn(abils))
+    }
     dists <- AllKendall(r = r, seqs = perm, data.info = infos)
     R <- lapply(1:ncol(z), function(j){
       idx <- which.min(colSums(dists * z[ ,j]))

@@ -1,23 +1,4 @@
-#' Fits a Gaussian mixture model to feature points of ranking data.
-#' 
-#' First map rank data to feature space with Kendall embedding,
-#' and then fit a Gaussian mixture in the feature space with an EM algorithm, 
-#' for clustering permutations.
-#' 
-#' 
-#' @param datas Matrix of fully-ranked data or permutations.
-#' @param G Number of modes, 2 or greater.
-#' @param weights Vector of frequencies of each permutation observed.
-#' @param iter Maximum number of iterations.
-#' @param tol Stopping precision.
-#' @param sigma.control Control dirac-like distribution for singletons.
-#' @param cov.constr Logical. Whether or not contrain covariance matrix to be diagonal.
-#' @param cal.mallowslike Logical. Compute Mallows likelihood wrt permutations.
-#' @return See output of FormatOut.
-#' @author Yunlong Jiao
-#' @export
 #' @importFrom mvtnorm dmvnorm
-#' @keywords cluster Gaussian mixture
 #' 
 
 gaussianmix <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.control = 1e-3, key = "kernelGaussian", 

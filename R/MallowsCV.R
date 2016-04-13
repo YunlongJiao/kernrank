@@ -1,33 +1,53 @@
-#' Fits a Mallows mixture model to ranking data.
+#' Compute cross-validated likelihood for Mallows mixture models
 #' 
-#' Fits the Mallows mixture model to full ranking data, using
-#' Kendall distance and an EM algorithm, for clustering permutations.
+#' Assess model performance by cross-validated (CV) Mallows likelihood.
+#' Do NOT run for large number of ranked alternatives "n".
 #' 
 #' 
-#' @param datas Matrix of fully-ranked data or permutations.
+#' @param datas Matrix of dimension N x n with sequences in rows.
 #' @param G Number of modes, 2 or greater.
-#' @param weights Vector of frequencies of each permutation observed,
-#' which cannot contain 0 and should be of equal length with nrow of datas since cv split is done by partitioning weights!
-#' @param ... Arguments passed to main function Mallows.
-#' @param nfolds nfold-fold cv created each time.
-#' @param nrepeats cv repeated nrepeats times.
-#' @param ntry Number of random initializations to restart each run and best fit with max likelihood chosen.
-#' @param logsumexp.trick Logical. Use logsumexp trick to compute log-likelihood.
-#' @return See output of FormatOut.
+#' @param weights Integer vector of length N denoting frequencies of each permutation observed.
+#' Each observation is observed once by default.
+#' Notably it must not contain 0 and should be of equal length with nrow(datas).
+#' @param ... Arguments passed to Mallows().
+#' @param seed Seed index for reproducible results.
+#' @param nfolds "nfold"-fold CV created each time.
+#' @param nrepeats CV repeated "nrepeats" times.
+#' @param ntry Number of random initializations to restart for each CV run. 
+#' The best fit returning max likelihood is reported. 
+#' @param logsumexp.trick Logical. Whether or not to use logsumexp trick to compute log-likelihood.
+#' @return List of length nfolds*nrepeats, each entry being the result on each fold containing:
+#' \item{...}{See output of Mallows()}
+#' \item{cv.loglik}{Likelihood value assessed against test fold while the mixture model is trained on the training fold}
 #' @author Yunlong Jiao
+#' @note CV split is done by partitioning "weights" so that "weights" must be integers.
 #' @importFrom caret createMultiFolds
 #' @export
+#' @references 
+#' Murphy, T. B., & Martin, D. (2003). Mixtures of distance-based models for ranking data. Computational statistics & data analysis, 41(3), 645-655.
+#' @references 
+#' Jiao, Y., & Vert, J. P. (2015). The Kendall and Mallows kernels for permutations. In Proceedings of the 32nd International Conference on Machine Learning (ICML-15) (pp. 1935-1944).
 #' @keywords cluster Mallows mixture
+#' @examples 
+#' datas <- do.call('rbind', permn(1:5))
+#' G <- 3
+#' weights <- rbinom(nrow(datas), 100, 0.5) # positive integers
+#' 
+#' # cross validate Mallows mixture model
+#' cv.model <- MallowsCV(datas, G, weights, key = 'bordaMallows')
+#' # averaged cv.loglik over all CV folds
+#' mean(sapply(cv.model, function(model) model$cv.loglik))
 #' 
 
-MallowsCV <- function(datas, G, weights = NULL, ..., seed=26921332, nfolds=5, nrepeats=10, ntry = 3, logsumexp.trick = TRUE)
+MallowsCV <- function(datas, G, weights = NULL, ..., seed = 26921332, nfolds = 5, nrepeats = 10, ntry = 3, logsumexp.trick = TRUE)
 {
   # @param weights 
-  # @param nfolds,nrepeats create nfold-fold cv repeated nrepeats times
+  # @param nfolds,nrepeats create 
   # @param ntry algorithm running ntry times for training set trying to avoid local maxima
   
   if (!is.null(seed)) set.seed(seed)
   if (is.null(weights)) weights <- rep(1, nrow(datas))
+  if (!is.integer(weights) || any(weights <= 0)) stop("weights must take integers for CV runs!")
   
   abils <- ncol(datas)
   perm <- do.call("rbind", permn(abils))

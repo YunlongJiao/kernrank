@@ -1,12 +1,12 @@
 Package: kernrank
 Title: kernrank package
-Version: 0.0
+Version: 1.0
 Authors@R: person("Yunlong", "Jiao", email = "yunlong.jiao@mines-paristech.fr", role = c("aut", "cre"))
-Description: kernrank implements kernels and kernel methods for analyzing rank
-    data, typically permutations, top-k rankings and multivariate rankings.
+Description: \pkg{kernrank} implements kernel functions and kernel methods for analyzing rank
+    data, typically total rankings (namely permutations), interleaving and top-k partial rankings, multivariate rankings. This package is built upon the CRAN package \href{https://cran.r-project.org/web/packages/RMallow/index.html}{\pkg{RMallow}} and serves as a stable update and mostly a significant extension of that package.
 Depends:
     R (>= 3.2),
     combinat,
-License: GPL (>= 2)
+License: GPL-3
 LazyData: true
 RoxygenNote: 5.0.1.9000

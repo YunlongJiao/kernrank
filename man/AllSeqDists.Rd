@@ -15,6 +15,9 @@ Vector of the distances from the sequences to 1:N.
 \description{
 Used to calculate the sequence Kendall distance distribution in N! space.
 }
+\note{
+Taken directly from RMallow package https://cran.r-project.org/web/packages/RMallow/index.html
+}
 \author{
 Erik Gregory
 }

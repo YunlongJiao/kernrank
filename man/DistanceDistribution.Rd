@@ -18,12 +18,16 @@ the sequence space.
 This function counts the number of fully-ordered vectors at each distance in
 N! space.
 }
+\note{
+Taken directly from RMallow package https://cran.r-project.org/web/packages/RMallow/index.html
+}
 \examples{
 ## Not run:
 
 # DistanceDistribution(10)
 
 ## End(Not run)
+
 }
 \author{
 Erik Gregory

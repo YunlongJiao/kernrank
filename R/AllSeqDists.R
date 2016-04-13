@@ -7,7 +7,8 @@
 #' @return Vector of the distances from the sequences to 1:N.
 #' @author Erik Gregory
 #' @keywords Kendall Distance
-
+#' 
+#' @note Taken directly from RMallow package https://cran.r-project.org/web/packages/RMallow/index.html
 
 AllSeqDists <-
 function(seqs) {

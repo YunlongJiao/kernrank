@@ -13,14 +13,13 @@
 #' @author Yunlong Jiao
 #' @export
 #' @keywords kendall kernel top-k ranking
+#' @references 
+#' Jiao, Y., & Vert, J. P. (2015). The Kendall and Mallows kernels for permutations. In Proceedings of the 32nd International Conference on Machine Learning (ICML-15) (pp. 1935-1944).
 #' @examples 
-#' ## Not run:
-#' 
 #' x <- c(1.5, 0.1, NA, -4, NA)
 #' y <- c(NA, NA, 0, 3, NA)
 #' kendall_top(x, y)
 #' 
-#' ## End(Not run)
 
 kendall_top <- function(x, y)
 {

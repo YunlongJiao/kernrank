@@ -7,24 +7,32 @@
 KendallInfo(r)
 }
 \arguments{
-\item{r}{Matrix of sequences. Instances in rows.}
+\item{r}{A vector or a matrix of dimension N x n with sequences in rows.}
 }
 \value{
-Matrix of -1s, 1s, and 0s representing pairwise comparisons of
-vector values.
+A matrix of dimension N x choose(n,2) with entry values -1/1/0 representing pairwise comparisons of
+vector values for each row. Specifically, a -1 value denotes that there is 
+an increase between the two columns, 1 a decrease, and 0 indicates that 
+the column values are identical in the same row.
 }
 \description{
-Performs each column-wise comparison on a matrix of sequences.  A -1 value
-denotes that there is an increase between the two columns, 1 a decrease, and
-0 indicates that the column values are identical in the row.
+Performs between-column comparison on a matrix of sequences denoting 
+sign([,i] - [,j]) for i < j.
+}
+\note{
+A matrix with one row is returned if the input "r" is a vector.
+}
+\examples{
+r <- do.call('rbind', permn(1:5))
+KendallInfo(r)
+
 }
 \author{
 Yunlong Jiao
 }
 \references{
-Jiao, Yunlong and Vert, Jean-Philippe. The Kendall and Mallows Kernels for Permutations.
-Proceedings of The 32nd International Conference on Machine Learning (ICML), JMLR: W&CP 37, 1935-1944, 2015.
+Jiao, Y., & Vert, J. P. (2015). The Kendall and Mallows kernels for permutations. In Proceedings of the 32nd International Conference on Machine Learning (ICML-15) (pp. 1935-1944).
 }
-\keyword{Distance}
 \keyword{Kendall}
+\keyword{embedding}
 

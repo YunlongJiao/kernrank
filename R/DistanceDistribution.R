@@ -17,6 +17,8 @@
 #' # DistanceDistribution(10)
 #' 
 #' ## End(Not run)
+#' 
+#' @note Taken directly from RMallow package https://cran.r-project.org/web/packages/RMallow/index.html
 
 DistanceDistribution <-
 function(N = 3) {

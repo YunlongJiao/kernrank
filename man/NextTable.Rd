@@ -19,6 +19,9 @@ Table of distances in (N+1)! space.
 This is identical to counting the number of fully-ordered vectors at each
 bubble sort distance in (N+1)! space.
 }
+\note{
+Taken directly from RMallow package https://cran.r-project.org/web/packages/RMallow/index.html
+}
 \author{
 Erik Gregory
 }

@@ -2,31 +2,33 @@
 % Please edit documentation in R/EStep.R
 \name{EStep}
 \alias{EStep}
-\title{The E-step of the EM algorithm.}
+\title{The E-step of the EM algorithm}
 \usage{
 EStep(R, r, p, lambda, G, N, C, all.dists, use.logC = FALSE)
 }
 \arguments{
-\item{R}{List. Current cluster modal sequences.}
+\item{R}{List of length "G". Current cluster modal sequences.}
 
-\item{r}{The data of full rankings.}
+\item{r}{A matrix with "N" sequences of full rankings in rows.}
 
-\item{p}{The proportion of the data currently assigned to each cluster.}
+\item{p}{Numeric vector. The proportion probability of each cluster.}
 
-\item{lambda}{The lambda parameters from Mallows model for each cluster.}
+\item{lambda}{Numeric vector. The lambda parameters from Mallows model for each cluster.}
 
-\item{G}{Number of clusters, length(R).}
+\item{G}{Number of clusters, equal to length(R).}
 
 \item{N}{Number of rows in the data.}
 
 \item{C}{Vector of normalizing coefficients for the clusters.}
 
 \item{all.dists}{For efficiency, provide all of the Kendall distances
-between each sequence and each cluster mode.}
+between each sequence and each cluster mode, that is the result of AllKendall(r,do.call('rbind',R)).}
+
+\item{use.logC}{Logical. Whether or not to use log-sum-exp trick.}
 }
 \value{
-Matrix where output[i, j] represents the current probability that
-subject "i" belongs to cluster "j".
+Matrix of dimension N x G where output[i,j] represents the current fuzzy assignment membership probability, 
+namely the updated probability that subject "i" belongs to cluster "j".
 }
 \description{
 Assigns each ranking the probability that it belongs to each cluster, given
@@ -36,9 +38,7 @@ current parameters.
 Yunlong Jiao
 }
 \references{
-"Mixtures of distance-based models for ranking data". Thomas 
-Brendan Murphy & Donal Martin. 1 April 2002. Computational Statistics & 
-Data Analysis 41 (2003) 645-655.
+Murphy, T. B., & Martin, D. (2003). Mixtures of distance-based models for ranking data. Computational statistics & data analysis, 41(3), 645-655.
 }
 \keyword{expectation}
 \keyword{maximization}

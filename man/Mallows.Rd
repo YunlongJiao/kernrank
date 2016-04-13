@@ -2,42 +2,76 @@
 % Please edit documentation in R/Mallows.R
 \name{Mallows}
 \alias{Mallows}
-\title{Fits a Mallows mixture model to ranking data.}
+\title{Fits a Mallows mixture model to ranking data}
 \usage{
 Mallows(datas, G, weights = NULL, iter = 100, tol = 0.001,
-  logsumexp.trick = TRUE, iterin = iter, exhkey = "_Exh",
-  eqlamkey = "_Eqlam", key = c("copelandMallows", "bruteMallows",
-  "bordaMallows", "kernelMallows", "kernelMallows_Exh", "copelandMallows_Eqlam",
-  "bruteMallows_Eqlam", "bordaMallows_Eqlam", "kernelMallows_Eqlam",
-  "kernelMallows_Exh_Eqlam", "kernelGaussian", "kernelGaussian_Eqlam"))
+  logsumexp.trick = TRUE, iterin = iter, key = c("copelandMallows",
+  "bruteMallows", "bordaMallows", "kernelMallows", "kernelMallows_Exh",
+  "copelandMallows_Eqlam", "bruteMallows_Eqlam", "bordaMallows_Eqlam",
+  "kernelMallows_Eqlam", "kernelMallows_Exh_Eqlam", "kernelGaussian",
+  "kernelGaussian_Eqlam"), exhkey = "_Exh", eqlamkey = "_Eqlam")
 }
 \arguments{
-\item{datas}{Matrix of fully-ranked data or permutations.}
+\item{datas}{Matrix of dimension N x n with sequences in rows.}
 
 \item{G}{Number of modes, 2 or greater.}
 
-\item{weights}{Vector of frequencies of each permutation observed.}
+\item{weights}{Numeric vector of length N denoting frequencies of each permutation observed.
+Each observation is observed once by default.
+Notably it must not contain 0 and should be of equal length with nrow(datas).}
 
-\item{iter}{Maximum number of iterations.}
+\item{iter}{Maximum number of iterations for EM algorithm.}
 
 \item{tol}{Stopping precision.}
 
-\item{logsumexp.trick}{Logical. Use logsumexp trick to compute log-likelihood.}
+\item{logsumexp.trick}{Logical. Whether or not to use log-sum-exp trick to compute log-likelihood.}
+
+\item{iterin}{Maximum number of iterations for alternate optimization between centers and lambda. 
+Effective only when performing kernel Mallows with exhaustive optimization.}
+
+\item{key}{A character string defining the type of Mallows mixture model to perform: 
+\itemize{
+\item \emph{copelandMallows} denotes original Mallows mixture model with cluster centers found by Copeland's method
+\item \emph{bruteMallows} denotes original Mallows mixture model with cluster centers found by brute-force search for optimal Kemeny consensus (not applicable for large n)
+\item \emph{bordaMallows} denotes original Mallows mixture model with cluster centers as Borda count
+\item \emph{kernelMallows} denotes kernel version of Mallows mixture model with cluster centers as the barycenter in Euclidean space induced by Kendall embedding
+\item \emph{kernelGaussian} denotes Gaussian mixture model in the Euclidean space induced by Kendall embedding
+}}
+
+\item{exhkey}{A character string. If it greps successfully in "key", an alternate optimization between centers and lambda.
+Effective only when performing \emph{kernelMallows} with exhaustive optimization.}
+
+\item{eqlamkey}{A character string. If it greps successfully in "key", the dispersion parameters (lambda) are constrained to be equal for all clusters; otherwise no constraints on lambda.}
 }
 \value{
-See output of FormatOut.
+List. 
+\item{key}{Character string indicating the type of Mallows mixture model performed}
+\item{R}{List of length "G" of cluster centers, each entry being a permutation of length n if original Mallows mixture model is performed, or a numeric vector of length choose(n,2) if kernel version is performed}
+\item{p}{Numeric vector of length "G" representing the proportion probability of each cluster}
+\item{lambda}{Numeric vector of length "G" representing the dispersion parameters of each cluster}
+\item{datas}{A copy of "datas" on which the Mallows mixture model is fitted, combined with "weights", fuzzy assignment membership probability "z", distances to centers in "R"}
+\item{min.like}{Numeric vector of length "iter" representing fitted likelihood values at each iteration}
 }
 \description{
-Fits the Mallows mixture model to full ranking data, using
-Kendall distance and an EM algorithm, for clustering permutations.
+Fits the Mallows mixture model to total rankings, using EM algorithm, 
+for clustering permutations.
+}
+\examples{
+datas <- do.call('rbind', permn(1:5))
+G <- 3
+weights <- runif(nrow(datas))
+
+# fit Mallows mixture model
+model <- Mallows(datas, G, weights, key = 'bordaMallows')
+str(model)
 }
 \author{
 Yunlong Jiao
 }
 \references{
-"Mixtures of distance-based models for ranking data". Thomas 
-Brendan Murphy & Donal Martin. 1 April 2002. Computational Statistics & 
-Data Analysis 41 (2003) 645-655.
+Murphy, T. B., & Martin, D. (2003). Mixtures of distance-based models for ranking data. Computational statistics & data analysis, 41(3), 645-655.
+
+Jiao, Y., & Vert, J. P. (2015). The Kendall and Mallows kernels for permutations. In Proceedings of the 32nd International Conference on Machine Learning (ICML-15) (pp. 1935-1944).
 }
 \keyword{Mallows}
 \keyword{cluster}

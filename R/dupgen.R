@@ -1,11 +1,10 @@
-#' Translate tied observations into compatible full rankings
-#' 
-#' Ancillary function for duplicating compatible full rankings for partial rankings with tied observations
-#' 
-#' @return compatible rankings in rows of a matrix if ranking contains duplicated ranks
 
 dupgen <- function(x)
 {
+  # translate tied observations into compatible full rankings
+  # ancillary function for duplicating compatible full rankings for partial rankings with tied observations
+  # @return compatible rankings in rows of a matrix if ranking contains duplicated ranks
+  
   t <- cumsum(c(1, table(x)))
   xupdate <- x * 0
   for (i in seq(length(t))[-1]) {

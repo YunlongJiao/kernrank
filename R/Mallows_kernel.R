@@ -1,24 +1,3 @@
-#' Fits a kernel version of Mallows mixture model to ranking data.
-#' 
-#' Fits the Mallows mixture model to full ranking data, using
-#' Kendall distance and an EM algorithm, for clustering permutations, 
-#' where centers are abitrary points in feature space induced by Kendall embedding.
-#' 
-#' 
-#' @param datas Matrix of fully-ranked data or permutations.
-#' @param G Number of modes, 2 or greater.
-#' @param weights Vector of frequencies of each permutation observed.
-#' @param iter Maximum number of iterations for EM algorithm.
-#' @param eqlam Logical. Whether to contrain disperson parameters equal.
-#' @param tol Stopping precision.
-#' @param exh Logical. Whether to do iterative optimization between center and dispersion.
-#' @param iterin Maximum number of iterations for iterative optimization between center and dispersion.
-#' @param logsumexp.trick Logical. Use logsumexp trick to compute log-likelihood.
-#' @return See output of FormatOut.
-#' @author Yunlong Jiao
-#' @export
-#' @keywords cluster Mallows mixture kernel
-#' 
 
 Mallows_kernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, iterin = iter, key = "kernelMallows", 
                            logsumexp.trick = TRUE, exh = FALSE)

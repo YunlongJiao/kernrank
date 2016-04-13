@@ -9,6 +9,8 @@
 #' @return Vector of Kendall distances from 1:N to each sequence in N! space.
 #' @author Erik Gregory
 #' @keywords distance bubblesort
+#' 
+#' @note Taken directly from RMallow package https://cran.r-project.org/web/packages/RMallow/index.html
 
 SeqDistribution <-
 function(N) {

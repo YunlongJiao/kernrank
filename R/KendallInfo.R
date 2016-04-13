@@ -1,29 +1,33 @@
 #' Kendall embedding of pairwise relative ordering
 #' 
-#' Performs each column-wise comparison on a matrix of sequences.  A -1 value
-#' denotes that there is an increase between the two columns, 1 a decrease, and
-#' 0 indicates that the column values are identical in the row.
+#' Performs between-column comparison on a matrix of sequences denoting 
+#' sign([,i] - [,j]) for i < j.
 #' 
-#' 
-#' @param r Matrix of sequences. Instances in rows.
-#' @return Matrix of -1s, 1s, and 0s representing pairwise comparisons of
-#' vector values.
+#' @param r A vector or a matrix of dimension N x n with sequences in rows.
+#' @return A matrix of dimension N x choose(n,2) with entry values -1/1/0 representing pairwise comparisons of
+#' vector values for each row. Specifically, a -1 value denotes that there is 
+#' an increase between the two columns, 1 a decrease, and 0 indicates that 
+#' the column values are identical in the same row.
+#' @note A matrix with one row is returned if the input "r" is a vector.
 #' @author Yunlong Jiao
 #' @export
-#' @references Jiao, Yunlong and Vert, Jean-Philippe. The Kendall and Mallows Kernels for Permutations.
-#' Proceedings of The 32nd International Conference on Machine Learning (ICML), JMLR: W&CP 37, 1935-1944, 2015.
-#' @keywords Kendall Distance
+#' @references
+#' Jiao, Y., & Vert, J. P. (2015). The Kendall and Mallows kernels for permutations. In Proceedings of the 32nd International Conference on Machine Learning (ICML-15) (pp. 1935-1944).
+#' @keywords Kendall embedding
+#' @examples 
+#' r <- do.call('rbind', permn(1:5))
+#' KendallInfo(r)
+#' 
 
 KendallInfo <- function(r)
 {
-  inds <- combn(ncol(r), 2)
-  
   if (is.vector(r)) {
-    r <- as.matrix(r, nrow = 1)
+    r <- matrix(r, nrow = 1)
   } else if (!is.matrix(r)) {
     r <- as.matrix(r)
-    attr(r, "dimnames") <- NULL
   }
+  
+  inds <- combn(ncol(r), 2)
   
   infos <- sign(r[, inds[1, ], drop = FALSE] - r[, inds[2, ], drop =  FALSE])
   return(infos)

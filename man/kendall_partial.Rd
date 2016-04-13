@@ -21,19 +21,19 @@ where ties (supposed few) are broken by adopting a convolution kernel
 averaging compatible rankings without ties.
 }
 \examples{
-## Not run:
-
 x <- c(1.5, 0.1, NA, -4, NA)
 y <- c(NA, NA, 0, 3, NA)
 kendall_partial(x, y)
 
-## End(Not run)
 }
 \author{
 Yunlong Jiao
 }
+\references{
+Jiao, Y., & Vert, J. P. (2015). The Kendall and Mallows kernels for permutations. In Proceedings of the 32nd International Conference on Machine Learning (ICML-15) (pp. 1935-1944).
+}
+\keyword{Kendall}
 \keyword{interleaving}
-\keyword{kendall}
 \keyword{kernel}
 \keyword{partial}
 \keyword{ranking}

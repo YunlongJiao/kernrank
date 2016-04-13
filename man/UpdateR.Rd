@@ -2,41 +2,42 @@
 % Please edit documentation in R/UpdateR.R
 \name{UpdateR}
 \alias{UpdateR}
-\title{Common ranking aggregation methods.}
+\title{Common ranking aggregation methods}
 \usage{
 UpdateR(r, z = NULL, infos = NULL, perm = NULL, key = c("borda",
   "copeland", "brute"))
 }
 \arguments{
-\item{r}{Matrix of sequences being clustered. Permutations in rows.}
+\item{r}{A vector or a matrix of sequences in rows.}
 
-\item{z}{Vector of weights or matrix of probability of cluster membership 
-for each sequence and each cluster.}
+\item{z}{A vector of weights/frequencies of observations or a matrix of probability of cluster membership 
+for each sequence and each cluster. Set by default a constant vector of 1.}
 
-\item{infos}{The KendallInfo matrix for "r". Optional for speeding up computation.}
+\item{infos}{The result of KendallInfo(r). Optional for speeding up computation.}
 
-\item{perm}{Full list of permutations for brute-force search of optimal center.}
+\item{perm}{A matrix of full permutations for brute-force search of optimal Kemeny consensus. Only effective for "key" equal to "brute".}
 
-\item{key}{Character. Ranking aggregation method to define centers.}
+\item{key}{A character string indicating the ranking aggregation method to find centers.
+\itemize{
+\item \emph{borda} denotes the Borda count
+\item \emph{copeland} denotes the Copeland's aggregated ranking
+\item \emph{brute} denotes the optimal Kemeny consensus found by brute-force search
+}}
 }
 \value{
-List. Consensus ranking or new cluster centers for each cluster.
+List of length 1 if "z" is a vector, or ncol(z) if "z" is a matrix, each entry being the modal sequence in each cluster.
 }
 \description{
-Used in EM algorithm for fitting Mallows model to update modal sequences 
-in each cluster.
+Used to update modal sequences of each cluster in the EM algorithm when fitting Mallows mixture models.
 }
 \examples{
-## Not run:
-
 r <- do.call("rbind", list(1:5, 5:1, c(2,4,1,5,3)))
-UpdateR(r, key = "borda")
+UpdateR(r, key = "borda") # Borda count for sequences in "r"
 
-## End(Not run)
 }
 \author{
 Yunlong Jiao
 }
-\keyword{center}
-\keyword{cluster}
+\keyword{aggregation}
+\keyword{rank}
 

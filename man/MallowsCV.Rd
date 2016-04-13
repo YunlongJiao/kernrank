@@ -2,38 +2,63 @@
 % Please edit documentation in R/MallowsCV.R
 \name{MallowsCV}
 \alias{MallowsCV}
-\title{Fits a Mallows mixture model to ranking data.}
+\title{Compute cross-validated likelihood for Mallows mixture models}
 \usage{
 MallowsCV(datas, G, weights = NULL, ..., seed = 26921332, nfolds = 5,
   nrepeats = 10, ntry = 3, logsumexp.trick = TRUE)
 }
 \arguments{
-\item{datas}{Matrix of fully-ranked data or permutations.}
+\item{datas}{Matrix of dimension N x n with sequences in rows.}
 
 \item{G}{Number of modes, 2 or greater.}
 
-\item{weights}{Vector of frequencies of each permutation observed,
-which cannot contain 0 and should be of equal length with nrow of datas since cv split is done by partitioning weights!}
+\item{weights}{Integer vector of length N denoting frequencies of each permutation observed.
+Each observation is observed once by default.
+Notably it must not contain 0 and should be of equal length with nrow(datas).}
 
-\item{...}{Arguments passed to main function Mallows.}
+\item{...}{Arguments passed to Mallows().}
 
-\item{nfolds}{nfold-fold cv created each time.}
+\item{seed}{Seed index for reproducible results.}
 
-\item{nrepeats}{cv repeated nrepeats times.}
+\item{nfolds}{"nfold"-fold CV created each time.}
 
-\item{ntry}{Number of random initializations to restart each run and best fit with max likelihood chosen.}
+\item{nrepeats}{CV repeated "nrepeats" times.}
 
-\item{logsumexp.trick}{Logical. Use logsumexp trick to compute log-likelihood.}
+\item{ntry}{Number of random initializations to restart for each CV run. 
+The best fit returning max likelihood is reported.}
+
+\item{logsumexp.trick}{Logical. Whether or not to use logsumexp trick to compute log-likelihood.}
 }
 \value{
-See output of FormatOut.
+List of length nfolds*nrepeats, each entry being the result on each fold containing:
+\item{...}{See output of Mallows()}
+\item{cv.loglik}{Likelihood value assessed against test fold while the mixture model is trained on the training fold}
 }
 \description{
-Fits the Mallows mixture model to full ranking data, using
-Kendall distance and an EM algorithm, for clustering permutations.
+Assess model performance by cross-validated (CV) Mallows likelihood.
+Do NOT run for large number of ranked alternatives "n".
+}
+\note{
+CV split is done by partitioning "weights" so that "weights" must be integers.
+}
+\examples{
+datas <- do.call('rbind', permn(1:5))
+G <- 3
+weights <- rbinom(nrow(datas), 100, 0.5) # positive integers
+
+# cross validate Mallows mixture model
+cv.model <- MallowsCV(datas, G, weights, key = 'bordaMallows')
+# averaged cv.loglik over all CV folds
+mean(sapply(cv.model, function(model) model$cv.loglik))
+
 }
 \author{
 Yunlong Jiao
+}
+\references{
+Murphy, T. B., & Martin, D. (2003). Mixtures of distance-based models for ranking data. Computational statistics & data analysis, 41(3), 645-655.
+
+Jiao, Y., & Vert, J. P. (2015). The Kendall and Mallows kernels for permutations. In Proceedings of the 32nd International Conference on Machine Learning (ICML-15) (pp. 1935-1944).
 }
 \keyword{Mallows}
 \keyword{cluster}

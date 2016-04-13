@@ -7,30 +7,27 @@
 logsumexp(x, byrow = TRUE, bycol = !byrow)
 }
 \arguments{
-\item{x}{A matrix or vector of numerics.}
+\item{x}{A vector or a matrix of numerics.}
 
-\item{byrow}{Logical. Computes by rows if a matrix is provided.}
+\item{byrow}{Logical. Computes by rows if a matrix "x" is provided.}
 
-\item{bycol}{Logical. Computes by cols if a matrix is provided.}
+\item{bycol}{Logical. Computes by cols if a matrix "x" is provided.}
 }
 \value{
-Log-Sum-Exp of the numbers in vector or row-/column-wise Log-Sum-Exp of the numbers in matrix.
+Log-Sum-Exp of the numbers in the vector "x" or row-/column-wise Log-Sum-Exp of the numbers in matrix "x".
 }
 \description{
 Computes log-sum-exp of a series of (typically large in absolute value) numbers with a trick
 }
 \examples{
-## Not run:
-
 x <- c(-1000, -999, -1000)
 logsumexp(x)
 
-## End(Not run)
 }
 \author{
 Yunlong Jiao
 }
 \references{
-https://hips.seas.harvard.edu/blog/2013/01/09/computing-log-sum-exp/
+Computing Log-Sum-Exp: \url{https://hips.seas.harvard.edu/blog/2013/01/09/computing-log-sum-exp/}
 }
 

@@ -10,6 +10,8 @@
 #' @return Table of distances in (N+1)! space.
 #' @author Erik Gregory
 #' @keywords bubblesort Kendall
+#' 
+#' @note Taken directly from RMallow package https://cran.r-project.org/web/packages/RMallow/index.html
 
 NextTable <-
 function(last.table, N.last) {

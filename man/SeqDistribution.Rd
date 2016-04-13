@@ -17,6 +17,9 @@ Calculates Kendall's distances of each sequence in N! space.  This is VERY
 Inefficient for N >= 8.  See DistanceDistribution for an astronomical
 improvement (possibly on the order of 10^10).
 }
+\note{
+Taken directly from RMallow package https://cran.r-project.org/web/packages/RMallow/index.html
+}
 \author{
 Erik Gregory
 }
