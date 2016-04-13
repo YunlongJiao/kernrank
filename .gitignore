@@ -3,3 +3,4 @@
 *.Rhistory
 *.RData
 *.Rapp.history
+*.Rbuildignore
