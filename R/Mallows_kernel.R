@@ -1,3 +1,5 @@
+#' @importFrom combinat permn
+#' 
 
 Mallows_kernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, iterin = iter, key = "kernelMallows", 
                            logsumexp.trick = TRUE, exh = FALSE)
@@ -14,7 +16,7 @@ Mallows_kernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, iterin = 
   
   # generate all full permutations
   # DO NOT RUN for over-sized permutation
-  perm <- do.call("rbind", permn(abils))
+  perm <- do.call("rbind", combinat::permn(abils))
   perm.info <- KendallInfo(perm)
   
   # Initialize the p-value of membership in each cluster.

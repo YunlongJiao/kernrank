@@ -9,7 +9,7 @@ distL2mat(kmat, r, seqs = NULL, type = c("type-b", "type-a"), mc = 0.25)
 \arguments{
 \item{kmat}{Kendall kernel matrix of dimension m1 x m2, correlation type correponding to "type".}
 
-\item{r, seq}{Matrices of m1,m2 sequences in rows with n ranked items in cols, by default "seq" set equal to "r".}
+\item{r, seqs}{Matrices of m1,m2 sequences in rows with n ranked items in cols, by default "seq" set equal to "r".}
 
 \item{type}{A character string indicating the type of Kendall correlation.}
 
@@ -43,6 +43,6 @@ dmat <- AllKendall(r, high.dim = TRUE)
 \references{
 Kendall rank correlation coefficient: \url{https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient}
 
-Jiao, Y., & Vert, J. P. (2015). The Kendall and Mallows kernels for permutations. In Proceedings of the 32nd International Conference on Machine Learning (ICML-15) (pp. 1935-1944).
+Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 }
 

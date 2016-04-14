@@ -11,10 +11,11 @@
 #' @keywords distance bubblesort
 #' 
 #' @note Taken directly from RMallow package https://cran.r-project.org/web/packages/RMallow/index.html
+#' @importFrom combinat permn
 
 SeqDistribution <-
 function(N) {
-  seqs <- do.call("rbind", permn(N))
+  seqs <- do.call("rbind", combinat::permn(N))
   all.dists <- AllSeqDists(seqs)
   return(all.dists)
 }

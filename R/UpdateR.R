@@ -16,6 +16,7 @@
 #' @return List of length 1 if "z" is a vector, or ncol(z) if "z" is a matrix, each entry being the modal sequence in each cluster.
 #' @author Yunlong Jiao
 #' @export 
+#' @importFrom combinat permn
 #' @keywords rank aggregation
 #' @examples 
 #' r <- do.call("rbind", list(1:5, 5:1, c(2,4,1,5,3)))
@@ -41,7 +42,7 @@ UpdateR <- function(r, z = NULL, infos = NULL, perm = NULL, key = c("borda", "co
     # DO NOT RUN for over-sized permutation !
     abils <- ncol(r)
     if (is.null(perm)) {
-      perm <- do.call("rbind", permn(abils))
+      perm <- do.call("rbind", combinat::permn(abils))
     }
     dists <- AllKendall(r = r, seqs = perm, data.info = infos)
     R <- lapply(1:ncol(z), function(j){
@@ -58,7 +59,7 @@ UpdateR <- function(r, z = NULL, infos = NULL, perm = NULL, key = c("borda", "co
       infos <- KendallInfo(r)
     }
     abils <- ncol(r)
-    # the following strictly dependent on the column order of combn results
+    # result of the following heavily depends on the column order of combn results as ties are broken by FCFS-principle
     num <- c(0, cumsum((abils-1):1))
     R <- lapply(1:ncol(z), function(j){
       cent.info <- sign(colSums(infos * z[ ,j]))

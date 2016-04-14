@@ -1,3 +1,5 @@
+#' @importFrom combinat permn
+#' 
 
 dupgen <- function(x)
 {
@@ -23,7 +25,7 @@ dupgen <- function(x)
       nl <- length(uid[[i]])
       s <- factorial(nl)
       subres <- matrix(0, nrow = s * nrow(res), ncol = ncol(res))
-      subres[ , uid[[i]]] <- (u[i] + do.call("rbind", permn(nl)) - 1)[rep(1:s, each = nrow(res)), ]
+      subres[ , uid[[i]]] <- (u[i] + do.call("rbind", combinat::permn(nl)) - 1)[rep(1:s, each = nrow(res)), ]
       subres[ , -uid[[i]]] <- (res[ , -uid[[i]], drop = FALSE])[rep(1:nrow(res), times = s), ]
       res <- subres
     }

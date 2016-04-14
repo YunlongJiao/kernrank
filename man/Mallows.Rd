@@ -57,7 +57,7 @@ Fits the Mallows mixture model to total rankings, using EM algorithm,
 for clustering permutations.
 }
 \examples{
-datas <- do.call('rbind', permn(1:5))
+datas <- do.call('rbind', combinat::permn(1:5))
 G <- 3
 weights <- runif(nrow(datas))
 
@@ -71,7 +71,7 @@ Yunlong Jiao
 \references{
 Murphy, T. B., & Martin, D. (2003). Mixtures of distance-based models for ranking data. Computational statistics & data analysis, 41(3), 645-655.
 
-Jiao, Y., & Vert, J. P. (2015). The Kendall and Mallows kernels for permutations. In Proceedings of the 32nd International Conference on Machine Learning (ICML-15) (pp. 1935-1944).
+Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 }
 \keyword{Mallows}
 \keyword{cluster}

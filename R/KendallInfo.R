@@ -11,11 +11,12 @@
 #' @note A matrix with one row is returned if the input "r" is a vector.
 #' @author Yunlong Jiao
 #' @export
+#' @importFrom combinat combn
 #' @references
-#' Jiao, Y., & Vert, J. P. (2015). The Kendall and Mallows kernels for permutations. In Proceedings of the 32nd International Conference on Machine Learning (ICML-15) (pp. 1935-1944).
+#' Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 #' @keywords Kendall embedding
 #' @examples 
-#' r <- do.call('rbind', permn(1:5))
+#' r <- do.call('rbind', combinat::permn(1:5))
 #' KendallInfo(r)
 #' 
 
@@ -27,7 +28,7 @@ KendallInfo <- function(r)
     r <- as.matrix(r)
   }
   
-  inds <- combn(ncol(r), 2)
+  inds <- combinat::combn(ncol(r), 2)
   
   infos <- sign(r[, inds[1, ], drop = FALSE] - r[, inds[2, ], drop =  FALSE])
   return(infos)

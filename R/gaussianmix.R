@@ -1,4 +1,5 @@
 #' @importFrom mvtnorm dmvnorm
+#' @importFrom combinat permn
 #' 
 
 gaussianmix <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.control = 1e-3, key = "kernelGaussian", 
@@ -145,7 +146,7 @@ gaussianmix <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.contro
   
   if (cov.constr && cal.mallowslike) {
     abils <- ncol(datas)
-    perm <- do.call("rbind", permn(abils))
+    perm <- do.call("rbind", combinat::permn(abils))
     perm.info <- KendallInfo(perm)
     # search for true normalization constant such that it forms a distribution over permutation group
     nconsts <- lapply(1:G, function(i){

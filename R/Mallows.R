@@ -32,14 +32,15 @@
 #' \item{datas}{A copy of "datas" on which the Mallows mixture model is fitted, combined with "weights", fuzzy assignment membership probability "z", distances to centers in "R"}
 #' \item{min.like}{Numeric vector of length "iter" representing fitted likelihood values at each iteration}
 #' @author Yunlong Jiao
+#' @importFrom combinat permn
 #' @export
 #' @references 
 #' Murphy, T. B., & Martin, D. (2003). Mixtures of distance-based models for ranking data. Computational statistics & data analysis, 41(3), 645-655.
 #' @references 
-#' Jiao, Y., & Vert, J. P. (2015). The Kendall and Mallows kernels for permutations. In Proceedings of the 32nd International Conference on Machine Learning (ICML-15) (pp. 1935-1944).
+#' Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 #' @keywords cluster Mallows mixture
 #' @examples 
-#' datas <- do.call('rbind', permn(1:5))
+#' datas <- do.call('rbind', combinat::permn(1:5))
 #' G <- 3
 #' weights <- runif(nrow(datas))
 #' 
@@ -74,7 +75,7 @@ Mallows <-
     abils <- ncol(datas)
     
     if (grepl("bruteMallows", key)) {
-      perm <- do.call("rbind", permn(abils))
+      perm <- do.call("rbind", combinat::permn(abils))
     } else {
       perm <- NULL
     }

@@ -23,7 +23,7 @@ sign([,i] - [,j]) for i < j.
 A matrix with one row is returned if the input "r" is a vector.
 }
 \examples{
-r <- do.call('rbind', permn(1:5))
+r <- do.call('rbind', combinat::permn(1:5))
 KendallInfo(r)
 
 }
@@ -31,7 +31,7 @@ KendallInfo(r)
 Yunlong Jiao
 }
 \references{
-Jiao, Y., & Vert, J. P. (2015). The Kendall and Mallows kernels for permutations. In Proceedings of the 32nd International Conference on Machine Learning (ICML-15) (pp. 1935-1944).
+Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 }
 \keyword{Kendall}
 \keyword{embedding}

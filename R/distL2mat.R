@@ -4,17 +4,18 @@
 #' exactly the Kendall distance. 
 #' 
 #' @param kmat Kendall kernel matrix of dimension m1 x m2, correlation type correponding to "type".
-#' @param r,seq Matrices of m1,m2 sequences in rows with n ranked items in cols, by default "seq" set equal to "r".
+#' @param r,seqs Matrices of m1,m2 sequences in rows with n ranked items in cols, by default "seq" set equal to "r".
 #' @param type A character string indicating the type of Kendall correlation.
 #' @param mc A normalization constant default to 0.25 such that output squared Euclidean distance amounts exactly to Kendall distances.
 #' @return A matrix of dimension m1 x m2 where entry [i,j] is the Kendall distance from sequence "i"
 #' in "r" to sequence "j" in "seqs".
 #' @note Kernel trick is explored in the sense that "r" and "seq" are only used for checking dimensions and getting attributes but not used explicitly to compute the distance.
 #' This is particularly interesting when data is high-dimensional in constrast to rather few observations (m1,m2>>n).
+#' @export
 #' @references 
 #' Kendall rank correlation coefficient: \url{https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient}
 #' @references 
-#' Jiao, Y., & Vert, J. P. (2015). The Kendall and Mallows kernels for permutations. In Proceedings of the 32nd International Conference on Machine Learning (ICML-15) (pp. 1935-1944).
+#' Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 #' @examples 
 #' r <- lapply(1:20, function(i) sample.int(1000))
 #' r <- do.call('rbind', r)

@@ -21,7 +21,7 @@
 #' @references 
 #' Kendall rank correlation coefficient: \url{https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient}
 #' @references 
-#' Jiao, Y., & Vert, J. P. (2015). The Kendall and Mallows kernels for permutations. In Proceedings of the 32nd International Conference on Machine Learning (ICML-15) (pp. 1935-1944).
+#' Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 #' @examples
 #' # Ex 1: compute Kendall distance matrix and Mallows kernel matrix
 #' 
@@ -51,7 +51,8 @@
 #' dmat2 <- AllKendall(r, high.dim = TRUE)
 #' proc.time() - pt
 #' 
-#' # dmat1 and dmat2 may be slightly different due to computation precision
+#' # NOTE: II should be around must faster than I in this setting
+#' # NOTE: dmat1 and dmat2 may return slightly different values due to computation precision
 #' 
 
 AllKendall <- function(r, seqs = NULL, data.info = NULL, high.dim = FALSE)
