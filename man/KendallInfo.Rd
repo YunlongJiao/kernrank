@@ -33,6 +33,6 @@ Yunlong Jiao
 \references{
 Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 }
+\keyword{Embedding}
 \keyword{Kendall}
-\keyword{embedding}
 

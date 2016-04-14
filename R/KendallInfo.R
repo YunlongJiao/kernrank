@@ -3,6 +3,7 @@
 #' Performs between-column comparison on a matrix of sequences denoting 
 #' sign([,i] - [,j]) for i < j.
 #' 
+#' 
 #' @param r A vector or a matrix of dimension N x n with sequences in rows.
 #' @return A matrix of dimension N x choose(n,2) with entry values -1/1/0 representing pairwise comparisons of
 #' vector values for each row. Specifically, a -1 value denotes that there is 
@@ -14,7 +15,7 @@
 #' @importFrom combinat combn
 #' @references
 #' Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
-#' @keywords Kendall embedding
+#' @keywords Kendall Embedding
 #' @examples 
 #' r <- do.call('rbind', combinat::permn(1:5))
 #' KendallInfo(r)

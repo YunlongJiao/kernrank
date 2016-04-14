@@ -7,8 +7,9 @@
 kendall_partial(x, y)
 }
 \arguments{
-\item{x}{Numeric vector. A rank vector is converted from x then,
-where larger values indicate being preferred and NA replace unobserved values.}
+\item{x}{Vector. 
+If x is numeric, the rank vector converted from x indicate that larger values mean being preferred.
+NAs replace unobserved values.}
 
 \item{y}{Same as x.}
 }
@@ -33,8 +34,6 @@ Yunlong Jiao
 Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 }
 \keyword{Kendall}
-\keyword{interleaving}
-\keyword{kernel}
-\keyword{partial}
-\keyword{ranking}
+\keyword{Kernel}
+\keyword{PartialRanking}
 

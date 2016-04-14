@@ -10,7 +10,7 @@
 #' the sequence space.
 #' @author Erik Gregory
 #' @export
-#' @keywords bubblesort Kendall
+#' @keywords Kendall Distance
 #' @examples
 #' ## Not run:
 #' 
@@ -18,7 +18,8 @@
 #' 
 #' ## End(Not run)
 #' 
-#' @note Taken directly from RMallow package https://cran.r-project.org/web/packages/RMallow/index.html
+#' @note Taken directly from \href{https://cran.r-project.org/web/packages/RMallow/index.html}{CRAN package RMallow}.
+#' 
 
 DistanceDistribution <-
 function(N = 3) {

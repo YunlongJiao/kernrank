@@ -1,22 +1,23 @@
 #' Computing Log-Sum-Exp with a common trick
 #' 
-#' Computes log-sum-exp of a series of (typically large in absolute value) numbers with a trick
+#' Computes log-sum-exp of a series of (typically large in absolute value) numbers 
+#' with a more accurate computational trick typically useful for small values
 #' 
 #' 
-#' @param x A vector or a matrix of numerics.
+#' @param x A vector or a matrix of numerics (typicall very small).
 #' @param byrow Logical. Computes by rows if a matrix "x" is provided.
 #' @param bycol Logical. Computes by cols if a matrix "x" is provided.
-#' @return Log-Sum-Exp of the numbers in the vector "x" or row-/column-wise Log-Sum-Exp of the numbers in matrix "x".
+#' @return Log-Sum-Exp of the numbers in the vector "x", that is log(sum(exp(x))), or row-/column-wise Log-Sum-Exp of the numbers in matrix "x".
 #' @author Yunlong Jiao
 #' @export
 #' @references 
 #' Computing Log-Sum-Exp: \url{https://hips.seas.harvard.edu/blog/2013/01/09/computing-log-sum-exp/}
 #' @examples
 #' x <- c(-1000, -999, -1000)
-#' logsumexp(x)
+#' LogSumExp(x)
 #' 
 
-logsumexp <- function(x, byrow = TRUE, bycol = !byrow)
+LogSumExp <- function(x, byrow = TRUE, bycol = !byrow)
 {
   if (is.matrix(x)) {
     if (byrow && !bycol) {

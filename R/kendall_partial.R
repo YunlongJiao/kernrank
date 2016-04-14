@@ -5,14 +5,14 @@
 #' averaging compatible rankings without ties.
 #' 
 #' 
-#' @param x Numeric vector. A rank vector is converted from x then,
-#' where larger values indicate being preferred and NA replace unobserved values. 
+#' @param x Vector. 
+#' If x is numeric, the rank vector converted from x indicate that larger values mean being preferred.
+#' NAs replace unobserved values. 
 #' @param y Same as x. 
 #' @return Kendall kernel for interleaving partial rankings defined as kendall tau averaged over all compatible full ranking.
-#' @importFrom pcaPP cor.fk
 #' @author Yunlong Jiao
 #' @export
-#' @keywords Kendall kernel interleaving partial ranking
+#' @keywords Kendall Kernel PartialRanking
 #' @references 
 #' Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 #' @examples 
@@ -23,11 +23,12 @@
 
 kendall_partial <- function(x, y)
 {
-  
+  if (!is.vector(x) || !is.vector(y)) 
+    stop("x and y must be vectors")
   if (any(is.na(x)) || any(is.na(y))) {
     FUN <- kendall_partial_inner
   } else {
-    FUN <- pcaPP::cor.fk
+    FUN <- kendall_corr
   }
   
   if (xd <- (anyDuplicated(x[is.finite(x)]) > 0)) {

@@ -19,7 +19,7 @@ This function counts the number of fully-ordered vectors at each distance in
 N! space.
 }
 \note{
-Taken directly from RMallow package https://cran.r-project.org/web/packages/RMallow/index.html
+Taken directly from \href{https://cran.r-project.org/web/packages/RMallow/index.html}{CRAN package RMallow}.
 }
 \examples{
 ## Not run:
@@ -32,6 +32,6 @@ Taken directly from RMallow package https://cran.r-project.org/web/packages/RMal
 \author{
 Erik Gregory
 }
+\keyword{Distance}
 \keyword{Kendall}
-\keyword{bubblesort}
 

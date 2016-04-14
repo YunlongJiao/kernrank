@@ -19,7 +19,7 @@ C_lam <- function(lambda, dists.table = NULL, dists.to.Rg = NULL, return.logC = 
     
     ps <- -lambda * t(dists.to.Rg)
     if (return.logC) {
-      logC <- -logsumexp(ps, byrow = TRUE)
+      logC <- -LogSumExp(ps, byrow = TRUE)
       return(logC)
     } else {
       C <- 1/rowSums(exp(ps))

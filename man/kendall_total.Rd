@@ -4,23 +4,21 @@
 \alias{kendall_total}
 \title{Kendall kernel for total rankings}
 \usage{
-kendall_total(x, y)
+kendall_total(x, y = NULL)
 }
 \arguments{
-\item{x}{Numeric vector. A rank vector is converted from x then,
-where larger values indicate being preferred and NA not allowed.}
+\item{x}{A vector or a matrix of m1 sequences in rows and orders of n items in cols.
+If x is numeric, the rank vector converted from x indicate that larger values mean being preferred.
+NAs are not allowed.}
 
-\item{y}{Same as x.}
+\item{y}{Same as x. By default "y" is set equal to "x".}
 }
 \value{
-Kendall kernel for total rankings defined as type-a (soft version) of kendall kernel.
+Kendall kernel for total rankings defined as type-b (soft version) of kendall kernel.
 }
 \description{
 Calculates Kendall kernel between total rankings in time O (nlogn),
 where ties are dealt with type-b (soft version) of kendall kernel
-}
-\note{
-The implementation is directly taken from pcaPP::cor.fk()
 }
 \examples{
 x <- c(1.5, 0.1, 0, -4, 0)
@@ -33,8 +31,7 @@ Kendall rank correlation coefficient: \url{https://en.wikipedia.org/wiki/Kendall
 
 Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 }
-\keyword{kendall}
-\keyword{kernel}
-\keyword{ranking}
-\keyword{total}
+\keyword{Kendall}
+\keyword{Kernel}
+\keyword{TotalRanking}
 

@@ -1,5 +1,3 @@
-#' @importFrom pcaPP cor.fk
-#' 
 
 kendall_partial_inner <- function(x,y){
   
@@ -39,7 +37,7 @@ kendall_partial_inner <- function(x,y){
     ka <- 0
   } else {
     cat('case a holds!\n')
-    ka <- cor.fk(x[idxcommon],y[idxcommon])*choose(l0,2)/choose(n,2)
+    ka <- kendall_corr(x[idxcommon],y[idxcommon])*choose(l0,2)/choose(n,2)
   }
   
   if(l0 == 0 || l1 == 0){

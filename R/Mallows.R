@@ -3,6 +3,7 @@
 #' Fits the Mallows mixture model to total rankings, using EM algorithm, 
 #' for clustering permutations.
 #' 
+#' 
 #' @param datas Matrix of dimension N x n with sequences in rows.
 #' @param G Number of modes, 2 or greater.
 #' @param weights Numeric vector of length N denoting frequencies of each permutation observed.
@@ -38,7 +39,7 @@
 #' Murphy, T. B., & Martin, D. (2003). Mixtures of distance-based models for ranking data. Computational statistics & data analysis, 41(3), 645-655.
 #' @references 
 #' Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
-#' @keywords cluster Mallows mixture
+#' @keywords Clustering MallowsMixture
 #' @examples 
 #' datas <- do.call('rbind', combinat::permn(1:5))
 #' G <- 3
@@ -64,9 +65,9 @@ Mallows <-
     exh <- grepl(exhkey, key)
     eqlam <- grepl(eqlamkey, key)
     if (grepl("kernelMallows", key)) {
-      return(Mallows_kernel(datas = datas, G = G, iter = iter, weights = weights, eqlam = eqlam, tol = tol, iterin = iterin, exh = exh, logsumexp.trick = logsumexp.trick, key = key))
+      return(MallowsKernel(datas = datas, G = G, iter = iter, weights = weights, eqlam = eqlam, tol = tol, iterin = iterin, exh = exh, logsumexp.trick = logsumexp.trick, key = key))
     } else if (grepl("kernelGaussian", key)) {
-      return(gaussianmix(datas = datas, G = G, iter = iter, weights = weights, eqlam = eqlam, tol = tol, cov.constr = TRUE, key = key))
+      return(GaussianKernel(datas = datas, G = G, iter = iter, weights = weights, eqlam = eqlam, tol = tol, cov.constr = TRUE, key = key))
     }
     
     # Number of subjects.
@@ -93,7 +94,7 @@ Mallows <-
     # cat("Solving...\n")
     likelihood <- 0*(1:iter)
     infos <- KendallInfo(datas)
-    all.dists.data <- AllKendall(datas, do.call("rbind", R), infos)
+    all.dists.data <- AllKendall(r = datas, seqs = do.call("rbind", R), data.info = infos)
     i <- 1
     
     while (i <= iter) {
@@ -101,11 +102,11 @@ Mallows <-
       z <- EStep(R, datas, p, lambda, G, N, C.lam, all.dists.data, use.logC = logsumexp.trick)
       
       # M Step
-      R <- UpdateR(datas, weights * z, infos, perm, key = key)
+      R <- RankAggreg(r = datas, z = weights * z, infos = infos, perm = perm, key = key)
       
       p <- UpdateP(z, weights)
       
-      all.dists.data <- AllKendall(datas, do.call("rbind", R), infos)
+      all.dists.data <- AllKendall(r = datas, seqs = do.call("rbind", R), data.info = infos)
       lambda <- UpdateLambda(r = datas, R = R, z = weights * z, G = G, all.dists.data = all.dists.data,
                              dists.table = dists.table, eqlam = eqlam)
       C.lam <- unlist(lapply(lambda, 

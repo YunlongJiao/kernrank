@@ -60,7 +60,6 @@ Murphy, T. B., & Martin, D. (2003). Mixtures of distance-based models for rankin
 
 Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 }
-\keyword{Mallows}
-\keyword{cluster}
-\keyword{mixture}
+\keyword{Clustering}
+\keyword{MallowsMixture}
 

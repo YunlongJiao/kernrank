@@ -21,14 +21,13 @@
 #' \item{cv.loglik}{Likelihood value assessed against test fold while the mixture model is trained on the training fold}
 #' @author Yunlong Jiao
 #' @note CV split is done by partitioning "weights" so that "weights" must be integers.
-#' @importFrom caret createMultiFolds
 #' @importFrom combinat permn
 #' @export
 #' @references 
 #' Murphy, T. B., & Martin, D. (2003). Mixtures of distance-based models for ranking data. Computational statistics & data analysis, 41(3), 645-655.
 #' @references 
 #' Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
-#' @keywords cluster Mallows mixture
+#' @keywords Clustering MallowsMixture
 #' @examples 
 #' datas <- do.call('rbind', combinat::permn(1:5))
 #' G <- 3
@@ -46,16 +45,42 @@ MallowsCV <- function(datas, G, weights = NULL, ..., seed = 26921332, nfolds = 5
   # @param nfolds,nrepeats create 
   # @param ntry algorithm running ntry times for training set trying to avoid local maxima
   
-  if (!is.null(seed)) set.seed(seed)
-  if (is.null(weights)) weights <- rep(1, nrow(datas))
-  if (!is.integer(weights) || any(weights <= 0)) stop("weights must take integers for CV runs!")
+  if (!is.null(seed)) 
+    set.seed(seed)
+  
+  if (is.null(weights)) 
+    weights <- rep(1, nrow(datas))
+  nsample <- sum(weights)
+  
+  if (!is.integer(weights) || any(weights <= 0)) 
+    stop("weights must take integers for CV runs!")
   
   abils <- ncol(datas)
   perm <- do.call("rbind", combinat::permn(abils))
   perm.info <- KendallInfo(perm)
   
-  nsample <- sum(weights)
-  foldIndices <- caret::createMultiFolds(1:nsample, k=nfolds, times=nrepeats)
+  if (requireNamespace("caret", quietly = TRUE)) {
+    foldIndices <- caret::createMultiFolds(1:nsample, k=nfolds, times=nrepeats)
+  } else {
+    # this serves as a rather simple alternative to caret::createMultiFolds()
+    intl <- cumsum(rep(floor(nsample/nfolds), nfolds))
+    intl[nfolds] <- nsample
+    intl <- c(0, intl)
+    cc <- cut(1:nsample, intl, include.lowest = FALSE, right = TRUE)
+    foldIndices <- lapply(1:nrepeats, function(i){
+      ss <- sample(nsample, replace = FALSE) # sampling
+      test.fold <- split(ss, cc)
+      train.fold <- lapply(test.fold, function(testid){
+        setdiff(1:nsample, testid)
+      })
+      return(train.fold)
+    })
+    foldIndices <- unlist(foldIndices, recursive = FALSE, use.names = FALSE)
+    names(foldIndices) <- as.vector(outer(
+      paste0("Fold", formatC(1:nfolds, width = nchar(nfolds), format = "d", flag = "0")), 
+      paste0("Rep", formatC(1:nrepeats, width = nchar(nrepeats), format = "d", flag = "0")), 
+      FUN = paste, sep = "."))
+  }
   
   wcumsum <- c(0, cumsum(weights))
   weightIndices <- lapply(foldIndices, function(i){
@@ -81,8 +106,9 @@ MallowsCV <- function(datas, G, weights = NULL, ..., seed = 26921332, nfolds = 5
     C.lam <- C_lam(res$lambda, dists.to.Rg = dists.to.Rg, return.logC = logsumexp.trick)
     zcol <- grep("pvals", colnames(res$datas))
     acol <- grep("dists", colnames(res$datas))
-    res$cv.loglik <- Likelihood(z = res$datas[ ,zcol], p = res$p, C.lam = C.lam, lambda = res$lambda, 
-                                all.dists.data = res$datas[ ,acol], weights = weights-wtr, use.logC = logsumexp.trick)
+    res$cv.loglik <- Likelihood(z = res$datas[ ,zcol], p = res$p, C.lam = C.lam, 
+                                lambda = res$lambda, all.dists.data = res$datas[ ,acol], 
+                                weights = weights - wtr, use.logC = logsumexp.trick)
     res
   })
   

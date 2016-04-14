@@ -3,7 +3,7 @@ Lambda <- function(lambda, rhs, dists = NULL, dists.table = NULL)
 {
   if (!is.null(dists)) {
     ps <- -lambda * dists
-    logsum <- -logsumexp(ps, byrow = FALSE, bycol = FALSE)
+    logsum <- -LogSumExp(ps, byrow = FALSE, bycol = FALSE)
     lhs <- sum(dists * exp(logsum - lambda * dists))
   } else if (!is.null(dists.table)) {
     lhs <- C_lam(lambda, 

@@ -4,14 +4,13 @@
 #' where ties are dealt with type-b (soft version) of kendall kernel
 #' 
 #' 
-#' @param x Numeric vector. A rank vector is converted from x then,
-#' where larger values indicate being preferred and NA not allowed.
-#' @param y Same as x.
-#' @return Kendall kernel for total rankings defined as type-a (soft version) of kendall kernel.
-#' @importFrom pcaPP cor.fk
+#' @param x A vector or a matrix of m1 sequences in rows and orders of n items in cols.
+#' If x is numeric, the rank vector converted from x indicate that larger values mean being preferred.
+#' NAs are not allowed.
+#' @param y Same as x. By default "y" is set equal to "x".
+#' @return Kendall kernel for total rankings defined as type-b (soft version) of kendall kernel.
 #' @export
-#' @note The implementation is directly taken from pcaPP::cor.fk()
-#' @keywords kendall kernel total ranking
+#' @keywords Kendall Kernel TotalRanking
 #' @references 
 #' Kendall rank correlation coefficient: \url{https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient}
 #' @references 
@@ -22,13 +21,32 @@
 #' kendall_total(x, y)
 #' 
 
-kendall_total <- function(x, y)
+kendall_total <- function(x, y = NULL)
 {
-  if (any(is.na(x)) || any(is.na(y))) {
-    stop("NA not allowed in kendall kernel for total rankings")
+  if (is.null(y) && is.vector(x)) {
+    kmat <- kendall_corr(x, x) # kmat is number
+  } else if (is.null(y) && !is.vector(x)) {
+    x <- as.matrix(x)
+    kmat <- kendall_corr(t(x)) # kmat is matrix
+    dimnames(kmat) <- list(rownames(x), rownames(x))
+  } else if (is.vector(y) && is.vector(x)) {
+    kmat <- kendall_corr(x, y) # kmat is number
   } else {
-    FUN <- pcaPP::cor.fk
+    # convert both x and y to matrix
+    if (is.vector(x)) {
+      x <- matrix(x, nrow = 1)
+    } else if (!is.matrix(x)) {
+      x <- as.matrix(x)
+    }
+    if (is.vector(y)) {
+      y <- matrix(y, nrow = 1)
+    } else if (!is.matrix(y)) {
+      y <- as.matrix(y)
+    }
+    # generate kernel matrix
+    if (ncol(x) != ncol(y)) 
+      stop("x and y need to have the same number of ranked items")
+    kmat <- kernmat(kf = kendall_corr, mat1 = x, mat2 = y) # kmat is matrix
   }
-  
-  return(FUN(x, y))
+  return(kmat)
 }

@@ -1,20 +1,8 @@
-#' Calculates the table of Kendall distances in (N+1)! space, given those in N!
-#' space.
-#' 
-#' This is identical to counting the number of fully-ordered vectors at each
-#' bubble sort distance in (N+1)! space.
-#' 
-#' 
-#' @param last.table Table of distances in N! space.
-#' @param N.last N
-#' @return Table of distances in (N+1)! space.
-#' @author Erik Gregory
-#' @keywords bubblesort Kendall
-#' 
-#' @note Taken directly from RMallow package https://cran.r-project.org/web/packages/RMallow/index.html
 
 NextTable <-
 function(last.table, N.last) {
+  # @note Taken directly from \href{https://cran.r-project.org/web/packages/RMallow/index.html}{CRAN package RMallow}.
+  
   len <- (N.last + 1)*(N.last)/2 + 1
   # Length of vector, minus the stuff that is easy to fill in.
   to.go <- len - 2*(N.last + 1)

@@ -1,9 +1,8 @@
-#' @importFrom mvtnorm dmvnorm
 #' @importFrom combinat permn
 #' 
 
-gaussianmix <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.control = 1e-3, key = "kernelGaussian", 
-                        verbose = FALSE, cov.constr = TRUE, cal.mallowslike = TRUE, mc = 0.25)
+GaussianKernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.control = 1e-3, key = "kernelGaussian", 
+                           verbose = FALSE, cov.constr = TRUE, cal.mallowslike = TRUE, mc = 0.25)
 {
   # @param datas instances in rows
   # @param sigma.control upscales too small sigma estimate
@@ -39,7 +38,7 @@ gaussianmix <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.contro
       })
       p <- do.call("rbind", p)
     }
-    logsum <- logsumexp(p, byrow = TRUE)
+    logsum <- LogSumExp(p, byrow = TRUE)
     exp(p - logsum)
   }
   
@@ -80,19 +79,23 @@ gaussianmix <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.contro
   gaussianlike <- function(x, N, G, mu, alpha, sigma, weights, cov.constr, nconsts = NULL, use.logC = TRUE){
     if (cov.constr) {
       ff <- lapply(1:G, function(i) mnorm(x, cent = mu[[i]], covar = sigma[[i]], nconst = nconsts[[i]], use.logC = use.logC))
-      ff <- logsumexp(do.call("rbind", ff) + log(alpha), bycol = TRUE)
+      ff <- LogSumExp(do.call("rbind", ff) + log(alpha), bycol = TRUE)
     } else {
       ff <- sapply(1:N, function(j){
         probs <- sapply(1:G, function(i){
           mvtnorm::dmvnorm(x[j, ], mean = mu[[i]], sigma = sigma[[i]], log = TRUE)
         })
-        logsumexp(log(alpha) + probs)
+        LogSumExp(log(alpha) + probs)
       })
     }
     sum(weights * ff)
   }
   
-  if (eqlam && !cov.constr) stop("equal covariance matrices that are not diagonal - not implemented yet")
+  if (!cov.constr && !requireNamespace("mvtnorm", quietly = TRUE)) 
+    stop("Package mvtnorm needed for function kernrank:::GaussianKernel(..., cov.constr=FALSE) to work. Please install it.")
+  
+  if (!cov.constr && eqlam) 
+    stop("Equal covariance matrices that are not diagonal has NOT been implemented yet ...")
   
   x <- KendallInfo(datas)
   N <- nrow(x)
@@ -150,7 +153,7 @@ gaussianmix <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.contro
     perm.info <- KendallInfo(perm)
     # search for true normalization constant such that it forms a distribution over permutation group
     nconsts <- lapply(1:G, function(i){
-      -logsumexp(mnorm(x = perm.info, cent = mu[[i]], covar = sigma[[i]], nconst = 0, use.logC = TRUE))
+      -LogSumExp(mnorm(x = perm.info, cent = mu[[i]], covar = sigma[[i]], nconst = 0, use.logC = TRUE))
     })
     # here is Mallows likelihood while keeping the estimate of all parameters
     out$min.like.mallows <- gaussianlike(x = x, N = N, G = G, mu = mu, alpha = alpha, sigma = sigma, weights = weights, cov.constr = cov.constr, nconsts = nconsts, use.logC = TRUE)

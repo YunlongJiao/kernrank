@@ -1,8 +1,8 @@
 #' @importFrom combinat permn
 #' 
 
-Mallows_kernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, iterin = iter, key = "kernelMallows", 
-                           logsumexp.trick = TRUE, exh = FALSE)
+MallowsKernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, iterin = iter, key = "kernelMallows", 
+                          logsumexp.trick = TRUE, exh = FALSE)
 {
   # feature points for data
   data.info <- KendallInfo(datas)

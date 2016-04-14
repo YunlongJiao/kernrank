@@ -1,6 +1,7 @@
-#' Common ranking aggregation methods
+#' Common ranking aggregation methods for permutations
 #' 
 #' Used to update modal sequences of each cluster in the EM algorithm when fitting Mallows mixture models.
+#' 
 #' 
 #' @param r A vector or a matrix of sequences in rows.
 #' @param z A vector of weights/frequencies of observations or a matrix of probability of cluster membership 
@@ -17,13 +18,13 @@
 #' @author Yunlong Jiao
 #' @export 
 #' @importFrom combinat permn
-#' @keywords rank aggregation
+#' @keywords RankAggregation TotalRanking
 #' @examples 
 #' r <- do.call("rbind", list(1:5, 5:1, c(2,4,1,5,3)))
-#' UpdateR(r, key = "borda") # Borda count for sequences in "r"
+#' RankAggreg(r, key = "borda") # Borda count for sequences in "r"
 #' 
 
-UpdateR <- function(r, z = NULL, infos = NULL, perm = NULL, key = c("borda", "copeland", "brute"))
+RankAggreg <- function(r, z = NULL, infos = NULL, perm = NULL, key = c("borda", "copeland", "brute"))
 {
   if (is.vector(r)) {
     r <- matrix(r, nrow = 1)
@@ -73,7 +74,7 @@ UpdateR <- function(r, z = NULL, infos = NULL, perm = NULL, key = c("borda", "co
       rank(cent, ties.method = "first")
     })
   } else {
-    stop("Unable to pick UpdateR function. Please specify ", sQuote("key"), " to be one of the following : borda, copeland, brute!")
+    stop("Unable to pick center update function. Please specify ", sQuote("key"), " to be one of the implemented methods!")
   }
   return(R)
 }
