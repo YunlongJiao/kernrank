@@ -4,12 +4,13 @@
 \alias{Mallows}
 \title{Fits a Mallows mixture model to ranking data}
 \usage{
-Mallows(datas, G, weights = NULL, iter = 100, tol = 0.001,
-  logsumexp.trick = TRUE, iterin = iter, key = c("copelandMallows",
-  "bruteMallows", "bordaMallows", "kernelMallows", "kernelMallows_Exh",
-  "copelandMallows_Eqlam", "bruteMallows_Eqlam", "bordaMallows_Eqlam",
-  "kernelMallows_Eqlam", "kernelMallows_Exh_Eqlam", "kernelGaussian",
-  "kernelGaussian_Eqlam"), exhkey = "_Exh", eqlamkey = "_Eqlam")
+Mallows(datas, G, weights = NULL, iter = 100, iterin = iter,
+  tol = 0.001, logsumexp.trick = TRUE, seed = 47631439,
+  key = c("copelandMallows", "bruteMallows", "bordaMallows", "kernelMallows",
+  "kernelMallows_Exh", "kernelGaussian", "copelandMallows_Eqlam",
+  "bruteMallows_Eqlam", "bordaMallows_Eqlam", "kernelMallows_Eqlam",
+  "kernelMallows_Exh_Eqlam", "kernelGaussian_Eqlam"), exhkey = "_Exh",
+  eqlamkey = "_Eqlam")
 }
 \arguments{
 \item{datas}{Matrix of dimension N x n with sequences in rows.}
@@ -22,12 +23,14 @@ Notably it must not contain 0 and should be of equal length with nrow(datas).}
 
 \item{iter}{Maximum number of iterations for EM algorithm.}
 
+\item{iterin}{Maximum number of iterations for alternate optimization between centers and lambda. 
+Effective only when performing kernel Mallows with exhaustive optimization.}
+
 \item{tol}{Stopping precision.}
 
 \item{logsumexp.trick}{Logical. Whether or not to use log-sum-exp trick to compute log-likelihood.}
 
-\item{iterin}{Maximum number of iterations for alternate optimization between centers and lambda. 
-Effective only when performing kernel Mallows with exhaustive optimization.}
+\item{seed}{Seed index for reproducible results when optimization is performed. Set to NULL to disable the action.}
 
 \item{key}{A character string defining the type of Mallows mixture model to perform: 
 \itemize{

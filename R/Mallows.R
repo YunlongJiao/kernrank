@@ -14,7 +14,6 @@
 #' Effective only when performing kernel Mallows with exhaustive optimization.
 #' @param tol Stopping precision.
 #' @param logsumexp.trick Logical. Whether or not to use log-sum-exp trick to compute log-likelihood.
-#' @param seed 
 #' @param seed Seed index for reproducible results when optimization is performed. Set to NULL to disable the action.
 #' @param key A character string defining the type of Mallows mixture model to perform: 
 #' \itemize{

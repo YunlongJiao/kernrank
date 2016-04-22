@@ -18,7 +18,7 @@ Notably it must not contain 0 and should be of equal length with nrow(datas).}
 
 \item{...}{Arguments passed to Mallows().}
 
-\item{seed}{Seed index for reproducible results.}
+\item{seed}{Seed index for reproducible results when creating splits of data for CV. Set to NULL to disable the action.}
 
 \item{nfolds}{"nfold"-fold CV created each time.}
 
