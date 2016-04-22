@@ -21,8 +21,8 @@
 #' @note Taken directly from \href{https://cran.r-project.org/web/packages/RMallow/index.html}{CRAN package RMallow}.
 #' 
 
-DistanceDistribution <-
-function(N = 3) {
+DistanceDistribution <- function(N = 3)
+{
   if (N <= 4) {
   	out <- table(SeqDistribution(N))
   }

@@ -1,6 +1,6 @@
 
-kendall_partial_inner <- function(x,y){
-  
+kendall_partial_inner <- function(x,y)
+{
   # core function for the wrap-up function kendall_partial
   
   if(length(x) != length(y)){

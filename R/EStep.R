@@ -1,6 +1,6 @@
 
-EStep <-
-function(R, r, p, lambda, G, N, C, all.dists, use.logC = FALSE) {
+EStep <- function(R, r, p, lambda, G, N, C, all.dists, use.logC = FALSE)
+{
   if (use.logC) {
     fs <- exp(C-lambda*t(all.dists))
   } else {

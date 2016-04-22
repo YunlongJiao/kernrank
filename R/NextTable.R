@@ -1,6 +1,6 @@
 
-NextTable <-
-function(last.table, N.last) {
+NextTable <- function(last.table, N.last)
+{
   # @note Taken directly from \href{https://cran.r-project.org/web/packages/RMallow/index.html}{CRAN package RMallow}.
   
   len <- (N.last + 1)*(N.last)/2 + 1
