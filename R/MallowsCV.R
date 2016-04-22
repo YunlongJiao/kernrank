@@ -10,7 +10,7 @@
 #' Each observation is observed once by default.
 #' Notably it must not contain 0 and should be of equal length with nrow(datas).
 #' @param ... Arguments passed to Mallows().
-#' @param seed Seed index for reproducible results.
+#' @param seed Seed index for reproducible results when creating splits of data for CV. Set to NULL to disable the action.
 #' @param nfolds "nfold"-fold CV created each time.
 #' @param nrepeats CV repeated "nrepeats" times.
 #' @param ntry Number of random initializations to restart for each CV run. 
