@@ -1,6 +1,6 @@
 Package: kernrank
 Title: Kernel Methods for Rank Data
-Version: 1.0.1
+Version: 1.0.2
 URL: https://github.com/YunlongJiao/kernrank
 Authors@R: person("Yunlong", "Jiao", email = "yunlong.jiao@mines-paristech.fr", role = c("aut", "cre"))
 Description: This package implements kernel functions and kernel methods for 

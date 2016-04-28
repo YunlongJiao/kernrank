@@ -63,13 +63,8 @@ MallowsCV <- function(datas, G, weights = NULL, ..., seed = 26921332, nfolds = 5
     foldIndices <- caret::createMultiFolds(1:nsample, k=nfolds, times=nrepeats)
   } else {
     # this serves as a rather simple alternative to caret::createMultiFolds()
-    intl <- cumsum(rep(floor(nsample/nfolds), nfolds))
-    intl[nfolds] <- nsample
-    intl <- c(0, intl)
-    cc <- cut(1:nsample, intl, include.lowest = FALSE, right = TRUE)
     foldIndices <- lapply(1:nrepeats, function(i){
-      ss <- sample(nsample, replace = FALSE) # sampling
-      test.fold <- split(ss, cc)
+      test.fold <- split(sample(nsample, replace = FALSE), rep(1:nfolds, length = nsample))
       train.fold <- lapply(test.fold, function(testid){
         setdiff(1:nsample, testid)
       })
