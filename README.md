@@ -1,6 +1,6 @@
 # kernrank
 
-`kernrank` is an `R` package implementing kernel functions and kernel methods for analyzing rank data, typically total rankings (namely permutations), interleaving and top-k partial rankings, multivariate rankings.
+`kernrank` is an `R` package implementing kernel functions and kernel methods for analyzing rank data, typically total rankings (or permutations), interleaving and top-k partial rankings, multivariate rankings.
 
 ## Installation
 
@@ -19,7 +19,7 @@ Refer to github repo [kendallkernel_demo](https://github.com/YunlongJiao/kendall
 
 ## Note
 
-This package is built upon the [CRAN package `RMallow`](https://cran.r-project.org/web/packages/RMallow/index.html) and serves as a stable update and mostly a significant extension of that package.
+This package is built upon the CRAN package [`RMallow`](https://cran.r-project.org/web/packages/RMallow/index.html) and serves as a stable update and mostly a significant extension of that package.
 
 ## Misc
 
