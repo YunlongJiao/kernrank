@@ -1,4 +1,5 @@
 #' @importFrom combinat permn
+#' @importFrom stats runif
 #' 
 
 MallowsKernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, iterin = iter, key = "kernelMallows", 

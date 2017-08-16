@@ -1,5 +1,7 @@
 # kernrank
 
+[![Travis-CI Build Status](https://travis-ci.org/YunlongJiao/kernrank.svg?branch=master)](https://travis-ci.org/YunlongJiao/kernrank)
+
 `kernrank` is an `R` package implementing kernel functions and kernel methods for analyzing rank data, typically total rankings (or permutations), interleaving and top-k partial rankings, multivariate rankings.
 
 ## Installation

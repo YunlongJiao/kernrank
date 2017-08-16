@@ -34,4 +34,3 @@ Erik Gregory
 }
 \keyword{Distance}
 \keyword{Kendall}
-

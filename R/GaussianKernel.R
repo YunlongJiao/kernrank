@@ -1,4 +1,5 @@
 #' @importFrom combinat permn
+#' @importFrom stats runif
 #' 
 
 GaussianKernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.control = 1e-3, key = "kernelGaussian", 

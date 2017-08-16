@@ -40,4 +40,3 @@ Yunlong Jiao
 }
 \keyword{RankAggregation}
 \keyword{TotalRanking}
-

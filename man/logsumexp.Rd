@@ -25,10 +25,9 @@ x <- c(-1000, -999, -1000)
 LogSumExp(x)
 
 }
-\author{
-Yunlong Jiao
-}
 \references{
 Computing Log-Sum-Exp: \url{https://hips.seas.harvard.edu/blog/2013/01/09/computing-log-sum-exp/}
 }
-
+\author{
+Yunlong Jiao
+}

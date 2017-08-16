@@ -35,6 +35,7 @@
 #' \item{min.like}{Numeric vector of length "iter" representing fitted likelihood values at each iteration}
 #' @author Yunlong Jiao
 #' @importFrom combinat permn
+#' @importFrom stats runif
 #' @export
 #' @references 
 #' Murphy, T. B., & Martin, D. (2003). Mixtures of distance-based models for ranking data. Computational statistics & data analysis, 41(3), 645-655.

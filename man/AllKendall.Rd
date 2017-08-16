@@ -74,15 +74,14 @@ isTRUE(all.equal(dmat1, dmat2, check.attributes = FALSE)) # may sometimes output
 isTRUE(max(abs(dmat1 - dmat2)) < 1e-6) # always output TRUE
 
 }
-\author{
-Yunlong Jiao
-}
 \references{
 Kendall rank correlation coefficient: \url{https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient}
 
 Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 }
+\author{
+Yunlong Jiao
+}
 \keyword{Distance}
 \keyword{Kendall}
 \keyword{TotalRanking}
-

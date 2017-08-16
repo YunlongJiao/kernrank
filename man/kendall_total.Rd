@@ -34,4 +34,3 @@ Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations
 \keyword{Kendall}
 \keyword{Kernel}
 \keyword{TotalRanking}
-

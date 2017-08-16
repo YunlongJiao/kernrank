@@ -27,12 +27,11 @@ r <- do.call('rbind', combinat::permn(1:5))
 KendallInfo(r)
 
 }
-\author{
-Yunlong Jiao
-}
 \references{
 Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 }
+\author{
+Yunlong Jiao
+}
 \keyword{Embedding}
 \keyword{Kendall}
-

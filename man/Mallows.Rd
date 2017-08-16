@@ -68,14 +68,13 @@ weights <- runif(nrow(datas))
 model <- Mallows(datas, G, weights, key = 'bordaMallows')
 str(model)
 }
-\author{
-Yunlong Jiao
-}
 \references{
 Murphy, T. B., & Martin, D. (2003). Mixtures of distance-based models for ranking data. Computational statistics & data analysis, 41(3), 645-655.
 
 Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
 }
+\author{
+Yunlong Jiao
+}
 \keyword{Clustering}
 \keyword{MallowsMixture}
-
