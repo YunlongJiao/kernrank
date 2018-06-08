@@ -8,16 +8,16 @@ kendall_total(x, y = NULL)
 }
 \arguments{
 \item{x}{A vector or a matrix of m1 sequences in rows and orders of n items in cols.
-If x is numeric, the rank vector converted from x indicate that larger values mean being preferred.
+If \code{x} is numeric, the rank vector converted from \code{x} indicate that larger values mean being preferred.
 NAs are not allowed.}
 
-\item{y}{Same as x. By default "y" is set equal to "x".}
+\item{y}{Same as \code{x}. By default "\code{y}" is set equal to "\code{x}".}
 }
 \value{
 Kendall kernel for total rankings defined as type-b (soft version) of kendall kernel.
 }
 \description{
-Calculates Kendall kernel between total rankings in time O (nlogn),
+Calculates Kendall kernel between total rankings in time \code{O(nlogn)},
 where ties are dealt with type-b (soft version) of kendall kernel
 }
 \examples{
@@ -29,7 +29,7 @@ kendall_total(x, y)
 \references{
 Kendall rank correlation coefficient: \url{https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient}
 
-Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
+Yunlong Jiao, Jean-Philippe Vert. "The Kendall and Mallows Kernels for Permutations." IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI), vol. 40, no. 7, pp. 1755-1769, 2018. \href{https://doi.org/10.1109/TPAMI.2017.2719680}{DOI:10.1109/TPAMI.2017.2719680}
 }
 \keyword{Kendall}
 \keyword{Kernel}

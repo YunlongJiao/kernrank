@@ -8,41 +8,40 @@ AllKendall(r, seqs = NULL, data.info = NULL, use.kernel.trick = FALSE,
   kmat = NULL, type = c("type-b", "type-a"), mc = 0.25)
 }
 \arguments{
-\item{r}{A vector or a matrix of m1 sequences in rows and orders of n items in cols.}
+\item{r}{A vector or a matrix of \code{m1} sequences in rows and orders of \code{n} items in cols.}
 
-\item{seqs}{Another vector or a matrix of m2 sequences in rows and orders of n items in cols. By default "seqs" is set equal to "r".}
+\item{seqs}{Another vector or a matrix of \code{m2} sequences in rows and orders of \code{n} items in cols. By default "\code{seqs}" is set equal to "\code{r}".}
 
-\item{data.info}{Optional argument giving the Kendall embedding of "r", that is the result of KendallInfo(r), 
-to facilitate computing Kendall's difference for "r" to "seqs" without exploring the kernel trick.}
+\item{data.info}{Optional argument giving the Kendall embedding of "\code{r}", that is the result of calling \code{\link{KendallInfo}}, 
+to facilitate computing Kendall's difference for "\code{r}" to "\code{seqs}" without exploring the kernel trick.}
 
-\item{use.kernel.trick}{Logical indicating whether the kernel trick is explored. 
-This is particularly interesting when the number of items to be ranked is high 
-and pcaPP::cor.fk() is available. 
-By default (set FALSE), Kendall embedding is explicitly computed; 
+\item{use.kernel.trick}{Logical. Indicator of whether the kernel trick is explored. 
+This is particularly interesting when the number of items to be ranked is large \code{(m1, m2 >> n)} 
+and will use \code{\link[pcaPP]{cor.fk}} for fast computation. 
+By default (set \code{FALSE}), Kendall embedding is explicitly computed; 
 otherwise kernel trick is explored.}
 
-\item{kmat}{Kendall kernel matrix of dimension m1 x m2, correlation type correponding to "type". If given, kernel trick is explored directly.}
+\item{kmat}{Kendall kernel matrix of dimension \code{m1 x m2}, correlation type correponding to "\code{type}". If given, kernel trick is explored directly.}
 
-\item{type}{A character string indicating the type of Kendall correlation for "kmat".}
+\item{type}{A character string indicating the type of Kendall correlation for "\code{kmat}".}
 
 \item{mc}{A normalization constant default to 0.25 such that output normalized squared Euclidean distance in the feature space induced by Kendall embedding amounts exactly to Kendall distances.}
 }
 \value{
-A matrix of dimension m1 x m2 where entry [i,j] is the distance from sequence "i"
-in "r" to sequence "j" in "seqs".
+A matrix of dimension \code{m1 x m2} where entry \code{[i,j]} is the distance from sequence \code{i}
+in "\code{r}" to sequence \code{j} in "\code{seqs}".
 }
 \description{
 Calculates all of the Kendall's distances between two sets of total 
 rankings or real-valued vectors.
 }
 \note{
-Kernel trick is explored in the sense that "r" and "seq" are only used for checking dimensions and getting attributes but not used explicitly to compute the distance.
-This is particularly interesting when data is high-dimensional in constrast to rather few observations (m1,m2>>n). 
-Option "use.kernel.trick" set TRUE or FALSE may give slightly different results due to computation precision.
+Kernel trick is explored in the sense that "\code{r}" and "\code{seq}" are only used for checking dimensions and getting attributes but not used explicitly to compute the distance.
+Option "\code{use.kernel.trick}" set \code{TRUE} or \code{FALSE} may give slightly different results due to computation precision of two implementations.
 }
 \examples{
 
-#### Ex 1: compute Kendall distance matrix and Mallows kernel matrix
+#### Ex 1: Compute Kendall distance matrix and Mallows kernel matrix
 data1 <- do.call("rbind", list(1:5, 5:1, c(3, 2, 1, 4, 5)))
 data2 <- do.call("rbind", list(1:5, 5:1))
 
@@ -53,31 +52,34 @@ s.K.d.mat <- AllKendall(data1, data2)
 lambda <- 0.1
 M.k.kmat <- exp(-lambda * s.K.d.mat)
 
-#### Ex 2: why kernel trick?
+#### Ex 2: Why kernel trick?
 r <- lapply(1:20, function(i) sample.int(1000, replace = TRUE))
 r <- do.call('rbind', r)
 dim(r)
 
-# I) without kernel trick
+# I) Without kernel trick
 pt <- proc.time()
 dmat1 <- AllKendall(r, use.kernel.trick = FALSE)
 proc.time() - pt
 
-# II) with kernel trick (should be much faster in this setting)
+# II) With kernel trick (should be much faster in this setting)
 require(pcaPP)
 pt <- proc.time()
 dmat2 <- AllKendall(r, use.kernel.trick = TRUE)
 proc.time() - pt
 
 # NOTE: dmat1 and dmat2 may return slightly different values due to computation precision
-isTRUE(all.equal(dmat1, dmat2, check.attributes = FALSE)) # may sometimes output FALSE
-isTRUE(max(abs(dmat1 - dmat2)) < 1e-6) # always output TRUE
+isTRUE(all.equal(dmat1, dmat2, check.attributes = FALSE)) # May sometimes output FALSE
+isTRUE(max(abs(dmat1 - dmat2)) < 1e-6) # Should always output TRUE
 
 }
 \references{
-Kendall rank correlation coefficient: \url{https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient}
+Kendall's tau rank correlation coefficient: \url{https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient}
 
-Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
+Yunlong Jiao, Jean-Philippe Vert. "The Kendall and Mallows Kernels for Permutations." IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI), vol. 40, no. 7, pp. 1755-1769, 2018. \href{https://doi.org/10.1109/TPAMI.2017.2719680}{DOI:10.1109/TPAMI.2017.2719680}
+}
+\seealso{
+\code{\link{KendallInfo}}, \code{\link[pcaPP]{cor.fk}}
 }
 \author{
 Yunlong Jiao

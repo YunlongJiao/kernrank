@@ -1,7 +1,7 @@
 
 NextTable <- function(last.table, N.last)
 {
-  # @note Taken directly from \href{https://cran.r-project.org/web/packages/RMallow/index.html}{CRAN package RMallow}.
+  # @note Taken directly from R CRAN package \href{https://cran.r-project.org/web/packages/RMallow/index.html}{RMallow}.
   
   len <- (N.last + 1)*(N.last)/2 + 1
   # Length of vector, minus the stuff that is easy to fill in.

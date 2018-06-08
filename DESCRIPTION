@@ -1,16 +1,25 @@
 Package: kernrank
 Title: Kernel Methods for Rank Data
-Version: 1.0.3
+Version: 1.0.4
 URL: https://github.com/YunlongJiao/kernrank
-Authors@R: person("Yunlong", "Jiao", email = "yunlong.jiao@mines-paristech.fr", role = c("aut", "cre"))
+Authors@R: person("Yunlong", "Jiao", email = "yunlong.jiao@stats.ox.ac.uk", 
+                  role = c("aut", "cre"))
 Description: This package implements kernel functions and kernel methods for 
-    analyzing rank data, typically total rankings (namely permutations), 
-    interleaving and top-k partial rankings, multivariate rankings. This package
-    is built upon the CRAN package RMallow and serves as a stable 
-    update and mostly a significant extension of that package.
+    analyzing rank data, typically total rankings (or permutations), 
+    interleaving and top-k partial rankings, multivariate rankings.
+    This package is built upon and is a stable and significant extension
+    of the R CRAN package RMallow.
 Depends: R (>= 3.2)
-Imports: combinat
-Suggests: caret, kernlab, mvtnorm, pcaPP
+LinkingTo:
+    Rcpp
+Imports: 
+    combinat, 
+    Rcpp
+Suggests: 
+    pcaPP, 
+    kernlab, 
+    mvtnorm, 
+    caret
 License: GPL-3
 LazyData: true
 RoxygenNote: 6.0.1

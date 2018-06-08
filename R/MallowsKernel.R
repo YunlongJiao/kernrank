@@ -5,31 +5,33 @@
 MallowsKernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, iterin = iter, key = "kernelMallows", 
                           logsumexp.trick = TRUE, exh = FALSE)
 {
-  # feature points for data
+  # Feature points for data
   data.info <- KendallInfo(datas)
-  # dimension of feature space
+  # Dimension of feature space
   dfs <- ncol(data.info)
   
-  # Number of subjects.
+  # Number of subjects
   N <- nrow(datas)
-  # Number of items being ranked.
+  # Number of items being ranked
   abils <- ncol(datas)
   
-  # generate all full permutations
+  # Generate all full permutations
   # DO NOT RUN for over-sized permutation
+  if (abils > 8)
+    warning("Size of permutations is very large, this might take a while...")
   perm <- do.call("rbind", combinat::permn(abils))
   perm.info <- KendallInfo(perm)
   
-  # Initialize the p-value of membership in each cluster.
+  # Initialize the p-value of membership in each cluster
   p <- rep(1/G, G)
-  # Initialize fuzzy assignment.
+  # Initialize fuzzy assignment
   z <- matrix(1/G, nrow = N, ncol = G)
-  # Initialize the modal sequences.
+  # Initialize the modal sequences
   R <- lapply(1:G, function(i) runif(dfs, min = -1, max = 1))
   dists.to.Rg <- distL2(r = perm.info, centers = do.call("rbind", R))
   all.dists.data <- distL2(r = data.info, centers = do.call("rbind", R))
   
-  # Initialize the lambda values.
+  # Initialize the lambda values
   lambda <- rep(runif(1, min = 0.1, max = 10), G)
   C.lam <- C_lam(lambda, dists.to.Rg = dists.to.Rg, return.logC = logsumexp.trick)
   
@@ -41,7 +43,7 @@ MallowsKernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, iterin = i
   i <- 1
   
   while (i <= iter) {
-    # save quantities from last iteration
+    # Save quantities from last iteration
     z1 <- z
     p1 <- p
     R1 <- R
@@ -58,7 +60,7 @@ MallowsKernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, iterin = i
     p <- UpdateP(z, weights)
     
     if (exh) {
-      # centers and lambda are being fully optimized with alternate minimization
+      # Centers and lambda are being fully optimized with alternate minimization
       iin <- 1
       while (iin <= iterin) {
         likeold <- like
@@ -74,7 +76,7 @@ MallowsKernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, iterin = i
         like <- Likelihood(z, p, C.lam, lambda, all.dists.data, weights, use.logC = logsumexp.trick)
         
         if (is.finite(like) && is.finite(likeold) && abs(like - likeold) < tol) {
-          # message("exh search converged")
+          # message("Exh search converged!")
           iin <- iterin
         }
         
@@ -98,12 +100,12 @@ MallowsKernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, iterin = i
     
     if (i > 2 && is.finite(likelihood[i]) && is.finite(likelihood[i-1])) {
       if (abs(likelihood[i] - likelihood[i-1]) < tol) {
-        # message("Algorithm converged")
+        # message("Algorithm converged!")
         likelihood[i:iter] <- likelihood[i]
         i <- iter
       } else if (likelihood[i-1] - likelihood[i] > tol) {
-        # in case of being stuck at a stationary point corresp to local minima for exhaustive search via alternate minimization
-        warning("jump out early due to alternating between local minima")
+        # In case of being stuck at a stationary point corresp to local minima for exhaustive search via alternate minimization
+        warning("Jumped out of main loop due to alternating between local minima!")
         z <- z1
         p <- p1
         R <- R1

@@ -5,18 +5,19 @@
 GaussianKernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.control = 1e-3, key = "kernelGaussian", 
                            verbose = FALSE, cov.constr = TRUE, cal.mallowslike = TRUE, mc = 0.25)
 {
-  # @param datas instances in rows
-  # @param sigma.control upscales too small sigma estimate
-  # @param cov.constr set covariance matrix diagonal if TRUE, general matrix if FALSE
-  # @param verbose print det of covariance if TRUE
-  # @param cal.mallowslike calculate mallows loglike if TRUE
+  # @param datas Instances in rows
+  # @param sigma.control Upscales too small sigma estimate
+  # @param cov.constr Set covariance matrix diagonal if \code{TRUE}, general matrix if \code{FALSE}
+  # @param verbose Print det of covariance if \code{TRUE}
+  # @param cal.mallowslike Calculate mallows loglike if \code{TRUE}
   
   mnorm <- function(x, cent, covar, nconst = NULL, use.logC = TRUE){
-    # @param x matrix of observations with samples in rows and features in col
-    # @param cent a vector of mean
-    # @param covar a single variance parameter such that covariance matrix is covar*IndentityMatrix
-    # @param nconst normalization constant
-    # @return log of multi-variate gaussian density for each row in x with mean cent and covariance matrix covar*I
+    # @param x Matrix of observations with samples in rows and features in col
+    # @param cent A vector of mean
+    # @param covar A single variance parameter such that covariance matrix is \code{covar x IndentityMatrix}
+    # @param nconst Normalization constant
+    # @return Log of multi-variate gaussian density for each row in "\code{x}" with mean "\code{cent}" 
+    # and covariance matrix \code{covar x IndentityMatrix}
     
     if (is.null(nconst)) {
       nconst <- -log(2*pi*covar)*ncol(x)/2
@@ -53,8 +54,8 @@ GaussianKernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.con
   }
   
   updateSigma <- function(i, x, p, weights, mu, dfs, cov.constr, sigma.control){
-    # @param sigma.control used to control fairly small sigma estimate when restricted model is employed
-    # return for non-equal sigma estimate
+    # @param sigma.control Used to control fairly small sigma estimate when restricted model is employed
+    # return For non-equal sigma estimate
     
     pcol <- p[ ,i] * weights
     if (cov.constr) {
@@ -68,7 +69,7 @@ GaussianKernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.con
   }
   
   updateSigma_Eqlam <- function(x, p, weights, mu, dfs, cov.constr, sigma.control){
-    # return for equal sigma estimate
+    # return For equal sigma estimate
     
     s <- lapply(1:G, function(i) apply(t(x) - mu[[i]], 2, crossprod))
     s <- do.call("cbind", s)
@@ -93,16 +94,17 @@ GaussianKernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.con
   }
   
   if (!cov.constr && !requireNamespace("mvtnorm", quietly = TRUE)) 
-    stop("Package mvtnorm needed for function kernrank:::GaussianKernel(..., cov.constr=FALSE) to work. Please install it.")
+    stop("Package mvtnorm needed for function \"kernrank:::GaussianKernel(..., cov.constr = FALSE)\" to work. Please install it.")
   
   if (!cov.constr && eqlam) 
-    stop("Equal covariance matrices that are not diagonal has NOT been implemented yet ...")
+    stop("Equal covariance matrices that are not diagonal has NOT been implemented yet. 
+         Please set \"cov.constr\" back to TRUE for function \"kernrank:::GaussianKernel(..., cov.constr = FALSE)\" to work.")
   
   x <- KendallInfo(datas)
   N <- nrow(x)
   dfs <- ncol(x)
   
-  # init
+  # Init
   p <- matrix(runif(N*G, min = 0, max = 1), N, G); p <- p/rowSums(p)
   alpha <- rep(1/G, G)
   mu <- lapply(1:G, function(i) runif(dfs, min = -1, max = 1))
@@ -152,11 +154,11 @@ GaussianKernel <- function(datas, G, iter, weights, eqlam, tol = 1e-3, sigma.con
     abils <- ncol(datas)
     perm <- do.call("rbind", combinat::permn(abils))
     perm.info <- KendallInfo(perm)
-    # search for true normalization constant such that it forms a distribution over permutation group
+    # Search for true normalization constant such that it forms a distribution over permutation group
     nconsts <- lapply(1:G, function(i){
       -LogSumExp(mnorm(x = perm.info, cent = mu[[i]], covar = sigma[[i]], nconst = 0, use.logC = TRUE))
     })
-    # here is Mallows likelihood while keeping the estimate of all parameters
+    # Here is Mallows likelihood while keeping the estimate of all parameters
     out$min.like.mallows <- gaussianlike(x = x, N = N, G = G, mu = mu, alpha = alpha, sigma = sigma, weights = weights, cov.constr = cov.constr, nconsts = nconsts, use.logC = TRUE)
   }
   

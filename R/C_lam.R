@@ -26,6 +26,6 @@ C_lam <- function(lambda, dists.table = NULL, dists.to.Rg = NULL, return.logC = 
       return(C)
     }
   } else {
-    stop("unable to calculate normalization constant C_lam, at least either given dists.table or dists.to.Rg")
+    stop("Unable to calculate normalization constant \"C_lam\", please give either \"dists.table\" or \"dists.to.Rg\"")
   }
 }

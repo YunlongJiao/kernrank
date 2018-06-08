@@ -13,19 +13,19 @@ RankAggreg(r, z = NULL, infos = NULL, perm = NULL, key = c("borda",
 \item{z}{A vector of weights/frequencies of observations or a matrix of probability of cluster membership 
 for each sequence and each cluster. Set by default a constant vector of 1.}
 
-\item{infos}{The result of KendallInfo(r). Optional for speeding up computation.}
+\item{infos}{The result of calling \code{\link{KendallInfo}}. Optional for speeding up computation.}
 
-\item{perm}{A matrix of full permutations for brute-force search of optimal Kemeny consensus. Only effective for "key" equal to "brute".}
+\item{perm}{A matrix of full permutations for brute-force search of optimal Kemeny consensus. Only effective when "\code{key}" equals to "\code{brute}".}
 
 \item{key}{A character string indicating the ranking aggregation method to find centers.
 \itemize{
-\item \emph{borda} denotes the Borda count
-\item \emph{copeland} denotes the Copeland's aggregated ranking
-\item \emph{brute} denotes the optimal Kemeny consensus found by brute-force search
+\item \code{borda} denotes the Borda count
+\item \code{copeland} denotes the Copeland's aggregated ranking
+\item \code{brute} denotes the optimal Kemeny consensus found by brute-force search
 }}
 }
 \value{
-List of length 1 if "z" is a vector, or ncol(z) if "z" is a matrix, each entry being the modal sequence in each cluster.
+List of length 1 if "\code{z}" is a vector, or \code{ncol(z)} if "\code{z}" is a matrix, each entry being the modal sequence in each cluster.
 }
 \description{
 Used to update modal sequences of each cluster in the EM algorithm when fitting Mallows mixture models.
@@ -34,6 +34,9 @@ Used to update modal sequences of each cluster in the EM algorithm when fitting 
 r <- do.call("rbind", list(1:5, 5:1, c(2,4,1,5,3)))
 RankAggreg(r, key = "borda") # Borda count for sequences in "r"
 
+}
+\seealso{
+\code{\link{KendallInfo}}
 }
 \author{
 Yunlong Jiao

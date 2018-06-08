@@ -8,54 +8,58 @@ MallowsCV(datas, G, weights = NULL, ..., seed = 26921332, nfolds = 5,
   nrepeats = 10, ntry = 3, logsumexp.trick = TRUE)
 }
 \arguments{
-\item{datas}{Matrix of dimension N x n with sequences in rows.}
+\item{datas}{Matrix of dimension \code{N x n} with sequences in rows.}
 
 \item{G}{Number of modes, 2 or greater.}
 
-\item{weights}{Integer vector of length N denoting frequencies of each permutation observed.
+\item{weights}{Integer vector of length \code{N} denoting frequencies of each permutation observed.
 Each observation is observed once by default.
-Notably it must not contain 0 and should be of equal length with nrow(datas).}
+Notably it must not contain 0 and should be of equal length with \code{nrow(datas)}.}
 
-\item{...}{Arguments passed to Mallows().}
+\item{...}{Arguments passed to \code{\link{Mallows}}.}
 
-\item{seed}{Seed index for reproducible results when creating splits of data for CV. Set to NULL to disable the action.}
+\item{seed}{Seed index for reproducible results when creating splits of data for CV.
+Set to NULL to disable the action.}
 
-\item{nfolds}{"nfold"-fold CV created each time.}
+\item{nfolds}{\code{nfold}-fold CV created each time.}
 
-\item{nrepeats}{CV repeated "nrepeats" times.}
+\item{nrepeats}{CV repeated \code{nrepeats} times.}
 
 \item{ntry}{Number of random initializations to restart for each CV run. 
 The best fit returning max likelihood is reported.}
 
-\item{logsumexp.trick}{Logical. Whether or not to use logsumexp trick to compute log-likelihood.}
+\item{logsumexp.trick}{Logical. Whether or not to use log-sum-exp trick to compute log-likelihood.}
 }
 \value{
-List of length nfolds*nrepeats, each entry being the result on each fold containing:
-\item{...}{See output of Mallows()}
+List of length \code{nfolds x nrepeats}, each entry being the result on each fold containing:
+\item{...}{See output of \code{\link{Mallows}}}
 \item{cv.loglik}{Likelihood value assessed against test fold while the mixture model is trained on the training fold}
 }
 \description{
 Assess model performance by cross-validated (CV) Mallows likelihood.
-Do NOT run for large number of ranked alternatives "n".
+Do NOT run for large number of ranked alternatives "\code{n}".
 }
 \note{
-CV split is done by partitioning "weights" so that "weights" must be integers.
+CV split is done by partitioning "\code{weights}" so that "\code{weights}" must be integers.
 }
 \examples{
 datas <- do.call('rbind', combinat::permn(1:5))
 G <- 3
 weights <- rbinom(nrow(datas), 100, 0.5) # positive integers
 
-# cross validate Mallows mixture model
+# Cross validate Mallows mixture model
 cv.model <- MallowsCV(datas, G, weights, key = 'bordaMallows', nfolds = 3, nrepeats = 1)
-# averaged cv.loglik over all CV folds
+# Averaged cv.loglik over all CV folds
 mean(sapply(cv.model, function(model) model$cv.loglik))
 
 }
 \references{
-Murphy, T. B., & Martin, D. (2003). Mixtures of distance-based models for ranking data. Computational statistics & data analysis, 41(3), 645-655.
+Thomas Brendan Murphy, Donal Martin. "Mixtures of distance-based models for ranking data." Computational Statistics & Data Analysis, vol. 41, no. 3, pp. 645-655, 2003. \href{https://doi.org/10.1016/S0167-9473(02)00165-2}{DOI:10.1016/S0167-9473(02)00165-2}
 
-Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
+Yunlong Jiao, Jean-Philippe Vert. "The Kendall and Mallows Kernels for Permutations." IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI), vol. 40, no. 7, pp. 1755-1769, 2018. \href{https://doi.org/10.1109/TPAMI.2017.2719680}{DOI:10.1109/TPAMI.2017.2719680}
+}
+\seealso{
+\code{\link{Mallows}}
 }
 \author{
 Yunlong Jiao

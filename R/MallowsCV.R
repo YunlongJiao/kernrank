@@ -1,41 +1,43 @@
 #' Compute cross-validated likelihood for Mallows mixture models
 #' 
 #' Assess model performance by cross-validated (CV) Mallows likelihood.
-#' Do NOT run for large number of ranked alternatives "n".
+#' Do NOT run for large number of ranked alternatives "\code{n}".
 #' 
 #' 
-#' @param datas Matrix of dimension N x n with sequences in rows.
+#' @param datas Matrix of dimension \code{N x n} with sequences in rows.
 #' @param G Number of modes, 2 or greater.
-#' @param weights Integer vector of length N denoting frequencies of each permutation observed.
+#' @param weights Integer vector of length \code{N} denoting frequencies of each permutation observed.
 #' Each observation is observed once by default.
-#' Notably it must not contain 0 and should be of equal length with nrow(datas).
-#' @param ... Arguments passed to Mallows().
-#' @param seed Seed index for reproducible results when creating splits of data for CV. Set to NULL to disable the action.
-#' @param nfolds "nfold"-fold CV created each time.
-#' @param nrepeats CV repeated "nrepeats" times.
+#' Notably it must not contain 0 and should be of equal length with \code{nrow(datas)}.
+#' @param ... Arguments passed to \code{\link{Mallows}}.
+#' @param seed Seed index for reproducible results when creating splits of data for CV.
+#' Set to NULL to disable the action.
+#' @param nfolds \code{nfold}-fold CV created each time.
+#' @param nrepeats CV repeated \code{nrepeats} times.
 #' @param ntry Number of random initializations to restart for each CV run. 
-#' The best fit returning max likelihood is reported. 
-#' @param logsumexp.trick Logical. Whether or not to use logsumexp trick to compute log-likelihood.
-#' @return List of length nfolds*nrepeats, each entry being the result on each fold containing:
-#' \item{...}{See output of Mallows()}
+#' The best fit returning max likelihood is reported.
+#' @param logsumexp.trick Logical. Whether or not to use log-sum-exp trick to compute log-likelihood.
+#' @return List of length \code{nfolds x nrepeats}, each entry being the result on each fold containing:
+#' \item{...}{See output of \code{\link{Mallows}}}
 #' \item{cv.loglik}{Likelihood value assessed against test fold while the mixture model is trained on the training fold}
 #' @author Yunlong Jiao
-#' @note CV split is done by partitioning "weights" so that "weights" must be integers.
+#' @note CV split is done by partitioning "\code{weights}" so that "\code{weights}" must be integers.
 #' @importFrom combinat permn
 #' @export
+#' @seealso \code{\link{Mallows}}
 #' @references 
-#' Murphy, T. B., & Martin, D. (2003). Mixtures of distance-based models for ranking data. Computational statistics & data analysis, 41(3), 645-655.
+#' Thomas Brendan Murphy, Donal Martin. "Mixtures of distance-based models for ranking data." Computational Statistics & Data Analysis, vol. 41, no. 3, pp. 645-655, 2003. \href{https://doi.org/10.1016/S0167-9473(02)00165-2}{DOI:10.1016/S0167-9473(02)00165-2}
 #' @references 
-#' Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
+#' Yunlong Jiao, Jean-Philippe Vert. "The Kendall and Mallows Kernels for Permutations." IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI), vol. 40, no. 7, pp. 1755-1769, 2018. \href{https://doi.org/10.1109/TPAMI.2017.2719680}{DOI:10.1109/TPAMI.2017.2719680}
 #' @keywords Clustering MallowsMixture
 #' @examples 
 #' datas <- do.call('rbind', combinat::permn(1:5))
 #' G <- 3
 #' weights <- rbinom(nrow(datas), 100, 0.5) # positive integers
 #' 
-#' # cross validate Mallows mixture model
+#' # Cross validate Mallows mixture model
 #' cv.model <- MallowsCV(datas, G, weights, key = 'bordaMallows', nfolds = 3, nrepeats = 1)
-#' # averaged cv.loglik over all CV folds
+#' # Averaged cv.loglik over all CV folds
 #' mean(sapply(cv.model, function(model) model$cv.loglik))
 #' 
 
@@ -43,7 +45,7 @@ MallowsCV <- function(datas, G, weights = NULL, ..., seed = 26921332, nfolds = 5
 {
   # @param weights 
   # @param nfolds,nrepeats create 
-  # @param ntry algorithm running ntry times for training set trying to avoid local maxima
+  # @param ntry Algorithm running \code{ntry} times for training set trying to avoid local maxima
   
   if (!is.null(seed)) 
     set.seed(seed)
@@ -53,7 +55,7 @@ MallowsCV <- function(datas, G, weights = NULL, ..., seed = 26921332, nfolds = 5
   nsample <- sum(weights)
   
   if (!is.integer(weights) || any(weights <= 0)) 
-    stop("weights must take integers for CV runs!")
+    stop("Weights must take integers for CV runs!")
   
   abils <- ncol(datas)
   perm <- do.call("rbind", combinat::permn(abils))
@@ -62,7 +64,7 @@ MallowsCV <- function(datas, G, weights = NULL, ..., seed = 26921332, nfolds = 5
   if (requireNamespace("caret", quietly = TRUE)) {
     foldIndices <- caret::createMultiFolds(1:nsample, k=nfolds, times=nrepeats)
   } else {
-    # this serves as a rather simple alternative to caret::createMultiFolds()
+    # This serves as a rather simple alternative to \code{\link{caret::createMultiFolds}}
     foldIndices <- lapply(1:nrepeats, function(i){
       test.fold <- split(sample(nsample, replace = FALSE), rep(1:nfolds, length = nsample))
       train.fold <- lapply(test.fold, function(testid){
@@ -88,11 +90,11 @@ MallowsCV <- function(datas, G, weights = NULL, ..., seed = 26921332, nfolds = 5
       Mallows(datas = datas, G = G, weights = wtr, ..., logsumexp.trick = logsumexp.trick)
     })
     
-    # pick up best fit
+    # Pick up best fit
     likes <- sapply(res, function(model) model[["min.like"]][max(which(model[["min.like"]] != 0))])
     res <- res[[which.max(likes)]]
     
-    # calculate cross-validate loglik
+    # Calculate cross-validate loglik
     cent <- do.call("rbind", res$R)
     if (!grepl("kernel", res$key)) {
       cent <- KendallInfo(cent)

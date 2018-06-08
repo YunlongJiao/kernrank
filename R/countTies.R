@@ -2,7 +2,7 @@
 countTies <- function(x)
 {
   # @param x Must be a matrix!
-  # @return A vector representing number of tied pairs in each rows of "x".
+  # @return A vector representing number of tied pairs in each rows of "\code{x}".
   
   if (is.vector(x)) {
     x <- matrix(x, nrow = 1)

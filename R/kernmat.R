@@ -1,8 +1,8 @@
 
 kernmat <- function(kf, mat1, mat2)
 {
-  # Alternative function to kernlab::kernelMatrix() for two matrices mat1,mat2 with observations in rows
-  # @note This function uses double for loops in R and is less cumbersome when "mat2" is not equal to "mat1"
+  # Alternative function to \code{\link{kernlab::kernelMatrix}} for two matrices \code{mat1,mat2} with observations in rows
+  # @note This function uses double for loops in R and is less cumbersome when "\code{mat2}" is not equal to "\code{mat1}"
   
   if (requireNamespace("kernlab", quietly = TRUE)) {
     res1 <- kernlab::kernelMatrix(kf, mat1, mat2)

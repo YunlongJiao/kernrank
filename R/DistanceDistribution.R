@@ -1,13 +1,13 @@
-#' Calculate the Kendall distance distribution in N! space.
+#' Calculate the Kendall distance distribution in \code{N!} space
 #' 
 #' This function counts the number of fully-ordered vectors at each distance in
-#' N! space.
+#' \code{N!} space.
 #' 
 #' 
 #' @param N Integer value, greater than or equal to 3.
 #' @return Table-like structure, where the names represent the distance from
-#' the modal sequence of each sequence in N! space, and the values represent the number of sequences at that distance in
-#' the sequence space.
+#' the modal sequence of each sequence in \code{N!} space, 
+#' and the values represent the number of sequences at that distance in the sequence space.
 #' @author Erik Gregory
 #' @export
 #' @keywords Kendall Distance
@@ -18,7 +18,7 @@
 #' 
 #' ## End(Not run)
 #' 
-#' @note Taken directly from \href{https://cran.r-project.org/web/packages/RMallow/index.html}{CRAN package RMallow}.
+#' @note Taken directly from R CRAN package \href{https://cran.r-project.org/web/packages/RMallow/index.html}{RMallow}.
 #' 
 
 DistanceDistribution <- function(N = 3)

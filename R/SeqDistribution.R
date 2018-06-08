@@ -3,7 +3,7 @@
 
 SeqDistribution <- function(N)
 {
-  # @note Taken directly from \href{https://cran.r-project.org/web/packages/RMallow/index.html}{CRAN package RMallow}.
+  # @note Taken directly from R CRAN package \href{https://cran.r-project.org/web/packages/RMallow/index.html}{RMallow}.
   
   seqs <- do.call("rbind", combinat::permn(N))
   all.dists <- AllSeqDists(seqs)

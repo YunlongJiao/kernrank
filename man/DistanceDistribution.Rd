@@ -2,7 +2,7 @@
 % Please edit documentation in R/DistanceDistribution.R
 \name{DistanceDistribution}
 \alias{DistanceDistribution}
-\title{Calculate the Kendall distance distribution in N! space.}
+\title{Calculate the Kendall distance distribution in \code{N!} space}
 \usage{
 DistanceDistribution(N = 3)
 }
@@ -11,15 +11,15 @@ DistanceDistribution(N = 3)
 }
 \value{
 Table-like structure, where the names represent the distance from
-the modal sequence of each sequence in N! space, and the values represent the number of sequences at that distance in
-the sequence space.
+the modal sequence of each sequence in \code{N!} space, 
+and the values represent the number of sequences at that distance in the sequence space.
 }
 \description{
 This function counts the number of fully-ordered vectors at each distance in
-N! space.
+\code{N!} space.
 }
 \note{
-Taken directly from \href{https://cran.r-project.org/web/packages/RMallow/index.html}{CRAN package RMallow}.
+Taken directly from R CRAN package \href{https://cran.r-project.org/web/packages/RMallow/index.html}{RMallow}.
 }
 \examples{
 ## Not run:

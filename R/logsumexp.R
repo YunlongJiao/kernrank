@@ -1,13 +1,14 @@
 #' Computing Log-Sum-Exp with a common trick
 #' 
 #' Computes log-sum-exp of a series of (typically large in absolute value) numbers 
-#' with a more accurate computational trick typically useful for small values
+#' with a more accurate computational trick typically useful for small values.
 #' 
 #' 
 #' @param x A vector or a matrix of numerics (typicall very small).
-#' @param byrow Logical. Computes by rows if a matrix "x" is provided.
-#' @param bycol Logical. Computes by cols if a matrix "x" is provided.
-#' @return Log-Sum-Exp of the numbers in the vector "x", that is log(sum(exp(x))), or row-/column-wise Log-Sum-Exp of the numbers in matrix "x".
+#' @param byrow Logical. Computes by rows if a matrix "\code{x}" is provided.
+#' @param bycol Logical. Computes by cols if a matrix "\code{x}" is provided.
+#' @return Log-Sum-Exp of the numbers in the vector "\code{x}", that is log(sum(exp(x))), 
+#' or row-/column-wise Log-Sum-Exp of the numbers in a matrix "\code{x}".
 #' @author Yunlong Jiao
 #' @export
 #' @references 

@@ -13,13 +13,13 @@ Mallows(datas, G, weights = NULL, iter = 100, iterin = iter,
   eqlamkey = "_Eqlam")
 }
 \arguments{
-\item{datas}{Matrix of dimension N x n with sequences in rows.}
+\item{datas}{Matrix of dimension \code{N x n} with sequences in rows.}
 
 \item{G}{Number of modes, 2 or greater.}
 
-\item{weights}{Numeric vector of length N denoting frequencies of each permutation observed.
+\item{weights}{Numeric vector of length \code{N} denoting frequencies of each permutation observed.
 Each observation is observed once by default.
-Notably it must not contain 0 and should be of equal length with nrow(datas).}
+Notably it must not contain 0 and should be of equal length with \code{nrow(datas)}.}
 
 \item{iter}{Maximum number of iterations for EM algorithm.}
 
@@ -34,26 +34,26 @@ Effective only when performing kernel Mallows with exhaustive optimization.}
 
 \item{key}{A character string defining the type of Mallows mixture model to perform: 
 \itemize{
-\item \emph{copelandMallows} denotes original Mallows mixture model with cluster centers found by Copeland's method
-\item \emph{bruteMallows} denotes original Mallows mixture model with cluster centers found by brute-force search for optimal Kemeny consensus (not applicable for large n)
-\item \emph{bordaMallows} denotes original Mallows mixture model with cluster centers as Borda count
-\item \emph{kernelMallows} denotes kernel version of Mallows mixture model with cluster centers as the barycenter in Euclidean space induced by Kendall embedding
-\item \emph{kernelGaussian} denotes Gaussian mixture model in the Euclidean space induced by Kendall embedding
+\item \code{copelandMallows} denotes original Mallows mixture model with cluster centers found by Copeland's method
+\item \code{bruteMallows} denotes original Mallows mixture model with cluster centers found by brute-force search for optimal Kemeny consensus (not applicable for large n)
+\item \code{bordaMallows} denotes original Mallows mixture model with cluster centers as Borda count
+\item \code{kernelMallows} denotes kernel version of Mallows mixture model with cluster centers as the barycenter in Euclidean space induced by Kendall embedding
+\item \code{kernelGaussian} denotes Gaussian mixture model in the Euclidean space induced by Kendall embedding
 }}
 
-\item{exhkey}{A character string. If it greps successfully in "key", an alternate optimization between centers and lambda.
-Effective only when performing \emph{kernelMallows} with exhaustive optimization.}
+\item{exhkey}{DO NOT CHANGE. A character string. If it greps successfully in "\code{key}", an alternate optimization between centers and lambda.
+Effective only when performing "\code{kernelMallows}" with exhaustive optimization.}
 
-\item{eqlamkey}{A character string. If it greps successfully in "key", the dispersion parameters (lambda) are constrained to be equal for all clusters; otherwise no constraints on lambda.}
+\item{eqlamkey}{DO NOT CHANGE. A character string. If it greps successfully in "\code{key}", the dispersion parameters (or lambda) are constrained to be equal for all clusters; otherwise no constraints on lambda.}
 }
 \value{
 List. 
 \item{key}{Character string indicating the type of Mallows mixture model performed}
-\item{R}{List of length "G" of cluster centers, each entry being a permutation of length n if original Mallows mixture model is performed, or a numeric vector of length choose(n,2) if kernel version is performed}
-\item{p}{Numeric vector of length "G" representing the proportion probability of each cluster}
-\item{lambda}{Numeric vector of length "G" representing the dispersion parameters of each cluster}
-\item{datas}{A copy of "datas" on which the Mallows mixture model is fitted, combined with "weights", fuzzy assignment membership probability "z", distances to centers in "R"}
-\item{min.like}{Numeric vector of length "iter" representing fitted likelihood values at each iteration}
+\item{R}{List of length "\code{G}" of cluster centers, each entry being a permutation of length "\code{n}" if original Mallows mixture model is performed, or a numeric vector of length \code{choose(n,2)} if kernel version is performed}
+\item{p}{Numeric vector of length "\code{G}" representing the proportion probability of each cluster}
+\item{lambda}{Numeric vector of length "\code{G}" representing the dispersion parameters of each cluster}
+\item{datas}{A copy of "\code{datas}" on which the Mallows mixture model is fitted, combined with "\code{weights}", fuzzy assignment membership probability "\code{z}", distances to centers in "\code{R}"}
+\item{min.like}{Numeric vector of length "\code{iter}" representing fitted likelihood values at each iteration}
 }
 \description{
 Fits the Mallows mixture model to total rankings, using EM algorithm, 
@@ -64,14 +64,17 @@ datas <- do.call('rbind', combinat::permn(1:5))
 G <- 3
 weights <- runif(nrow(datas))
 
-# fit Mallows mixture model
+# Fit Mallows mixture model
 model <- Mallows(datas, G, weights, key = 'bordaMallows')
 str(model)
 }
 \references{
-Murphy, T. B., & Martin, D. (2003). Mixtures of distance-based models for ranking data. Computational statistics & data analysis, 41(3), 645-655.
+Thomas Brendan Murphy, Donal Martin. "Mixtures of distance-based models for ranking data." Computational Statistics & Data Analysis, vol. 41, no. 3, pp. 645-655, 2003. \href{https://doi.org/10.1016/S0167-9473(02)00165-2}{DOI:10.1016/S0167-9473(02)00165-2}
 
-Jiao, Y., & Vert, J.-P. (2016). The Kendall and Mallows Kernels for Permutations. 2016. \href{https://hal.archives-ouvertes.fr/hal-01279273}{hal-01279273}
+Yunlong Jiao, Jean-Philippe Vert. "The Kendall and Mallows Kernels for Permutations." IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI), vol. 40, no. 7, pp. 1755-1769, 2018. \href{https://doi.org/10.1109/TPAMI.2017.2719680}{DOI:10.1109/TPAMI.2017.2719680}
+}
+\seealso{
+\code{\link{MallowsCV}}
 }
 \author{
 Yunlong Jiao

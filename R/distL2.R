@@ -1,8 +1,9 @@
 
 distL2 <- function(r, centers, mc = 0.25)
 {
-  # @param r,centers Must be results of KendallInfo()
-  # @return squared euclidean distance in feature space multiplied by "mc"
+  # @param r,centers Must be results of calling \code{\link{KendallInfo}}
+  # @seealso \code{\link{KendallInfo}}
+  # @return Squared euclidean distance in feature space multiplied by "\code{mc}"
   
   stopifnot(ncol(r)==ncol(centers))
   
