@@ -1,14 +1,14 @@
 #' Kendall kernel for total rankings
 #' 
-#' Calculates Kendall kernel between total rankings in time \code{O(nlogn)},
-#' where ties are dealt with type-b (soft version) of kendall kernel
+#' Calculates Kendall kernel between total rankings in time \code{O(nlogn)}, 
+#' where ties are dealt with by type-b soft version of Kendall tau correlation.
 #' 
 #' 
-#' @param x A vector or a matrix of m1 sequences in rows and orders of n items in cols.
+#' @param x,y Vector.
 #' If \code{x} is numeric, the rank vector converted from \code{x} indicate that larger values mean being preferred.
 #' NAs are not allowed.
-#' @param y Same as \code{x}. By default "\code{y}" is set equal to "\code{x}".
-#' @return Kendall kernel for total rankings defined as type-b (soft version) of kendall kernel.
+#' @return Kendall kernel for total rankings,
+#' where ties are dealt with by type-b soft version of Kendall tau correlation.
 #' @export
 #' @keywords Kendall Kernel TotalRanking
 #' @references 
@@ -21,32 +21,13 @@
 #' kendall_total(x, y)
 #' 
 
-kendall_total <- function(x, y = NULL)
+kendall_total <- function(x, y)
 {
-  if (is.null(y) && is.vector(x)) {
-    kmat <- kendall_corr(x, x) # kmat is number
-  } else if (is.null(y) && !is.vector(x)) {
-    x <- as.matrix(x)
-    kmat <- kendall_corr(t(x)) # kmat is matrix
-    dimnames(kmat) <- list(rownames(x), rownames(x))
-  } else if (is.vector(y) && is.vector(x)) {
-    kmat <- kendall_corr(x, y) # kmat is number
-  } else {
-    # Convert both x and y to matrix
-    if (is.vector(x)) {
-      x <- matrix(x, nrow = 1)
-    } else if (!is.matrix(x)) {
-      x <- as.matrix(x)
-    }
-    if (is.vector(y)) {
-      y <- matrix(y, nrow = 1)
-    } else if (!is.matrix(y)) {
-      y <- as.matrix(y)
-    }
-    # Generate kernel matrix
-    if (ncol(x) != ncol(y)) 
-      stop("\"x\" and \"y\" need to have the same number of ranked items!")
-    kmat <- kernmat(kf = kendall_corr, mat1 = x, mat2 = y) # kmat is matrix
-  }
-  return(kmat)
+  if (!is.vector(x) || !is.vector(y)) 
+    stop("\"x\" and \"y\" must be vectors")
+  
+  if (any(is.na(x)) || any(is.na(y)))
+    stop("\"x\" and \"y\" cannot contain any NAs!")
+  
+  return(kendall_corr(x, y))
 }

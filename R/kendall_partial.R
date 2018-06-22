@@ -8,7 +8,8 @@
 #' @param x,y Vector. 
 #' If \code{x} is numeric, the rank vector converted from \code{x} indicate that larger values mean being preferred.
 #' NAs replace unobserved values.
-#' @return Kendall kernel for interleaving partial rankings defined as kendall tau averaged over all compatible full ranking.
+#' @return Kendall kernel for interleaving partial rankings,
+#' where ties (supposed few) are broken by adopting a convolution kernel averaging compatible rankings without ties.
 #' @author Yunlong Jiao
 #' @export
 #' @keywords Kendall Kernel PartialRanking

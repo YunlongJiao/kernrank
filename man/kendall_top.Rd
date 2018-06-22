@@ -12,7 +12,8 @@ If \code{x} is numeric, the rank vector converted from \code{x} indicate that la
 NAs replace unobserved values.}
 }
 \value{
-Kendall kernel for top-k rankings defined as kendall tau averaged over all compatible full ranking.
+Kendall kernel for top-k rankings,
+where ties (supposed few) are broken by adopting a convolution kernel averaging compatible rankings without ties.
 }
 \description{
 Calculates Kendall kernel between top-k rankings in time \code{O(klogk)},

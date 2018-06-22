@@ -12,7 +12,8 @@ If \code{x} is numeric, the rank vector converted from \code{x} indicate that la
 NAs replace unobserved values.}
 }
 \value{
-Kendall kernel for interleaving partial rankings defined as kendall tau averaged over all compatible full ranking.
+Kendall kernel for interleaving partial rankings,
+where ties (supposed few) are broken by adopting a convolution kernel averaging compatible rankings without ties.
 }
 \description{
 Calculates Kendall kernel between interleaving partial rankings in time \code{O(klogk)},

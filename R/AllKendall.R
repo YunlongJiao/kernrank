@@ -21,6 +21,7 @@
 #' @note Kernel trick is explored in the sense that "\code{r}" and "\code{seq}" are only used for checking dimensions and getting attributes but not used explicitly to compute the distance.
 #' Option "\code{use.kernel.trick}" set \code{TRUE} or \code{FALSE} may give slightly different results due to computation precision of two implementations.
 #' @author Yunlong Jiao
+#' @importFrom kernlab kernelMatrix
 #' @keywords Kendall Distance TotalRanking
 #' @export
 #' @seealso \code{\link{KendallInfo}}, \code{\link[pcaPP]{cor.fk}}
@@ -90,7 +91,9 @@ AllKendall <- function(r, seqs = NULL, data.info = NULL, use.kernel.trick = FALS
     if (is.null(kmat)) {
       # CASE I: Explore kernel trick in high-dimensional setting
       type <- 'type-b'
-      kmat <- kendall_total(x = r, y = seqs)
+      kf <- kendall_corr
+      class(kf) <- 'kernel'
+      kmat <- kernlab::kernelMatrix(kf, r, seqs)
     }
     # CASE II: If kmat is given then kernel trick is explored directly no matter what
     if (is.null(seqs)) {

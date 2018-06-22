@@ -3,34 +3,34 @@
 
 dupgen <- function(x)
 {
-  # Translates tied observations into compatible full rankings
+  # Generates compatible rankings that breaks tied observations in a ranking,
+  # where ties are supposed few and NAs are retained in the compatible rankings.
   # 
-  # Ancillary function for duplicating compatible full rankings for partial rankings with tied observations
+  # @param x Vector. 
+  # If \code{x} is numeric, the rank vector converted from \code{x} indicate that larger values mean being preferred.
   # 
-  # @return Compatible rankings in rows of a matrix if ranking contains duplicated ranks
+  # @return A matrix with compatible rankings to "\code{x}" in rows.
   
-  t <- cumsum(c(1, table(x)))
-  xupdate <- x * 0
-  for (i in seq(length(t))[-1]) {
-    id <- which(x == as.numeric(names(t)[i]))
-    xupdate[id] <- t[i - 1] # only relative ranks are reserved in xupdate
+  stopifnot(is.vector(x))
+  if (is.null(names(x)))
+    names(x) <- paste0("v", seq_along(x))
+  x.prot <- rank(x, na.last = "keep", ties.method = "min")
+  
+  # Deal with unique values or NA
+  id.uniq <- is.na(x.prot) | (!duplicated(x.prot, fromLast=FALSE) & !duplicated(x.prot, fromLast=TRUE))
+  res <- t(as.matrix(x.prot[id.uniq])) # nrow set to 1
+  
+  # Deal with duplicates
+  x.tab <- table(x.prot)
+  f = factor(x.prot, levels = as.integer(names(which(x.tab > 1))))
+  x.sp <- split(x.prot, f)
+  for (dup in x.sp) {
+    t <- combinat::permn((dup[1]):(dup[1]+length(dup)-1))
+    t <- do.call("rbind", t)
+    colnames(t) <- names(dup)
+    res <- cbind(res[rep(seq_len(nrow(res)), times = nrow(t)), , drop=F],
+                 t[rep(seq_len(nrow(t)), each = nrow(res)), , drop=F])
   }
   
-  xfinite <- xupdate[is.finite(xupdate)]
-  u <- unique(xfinite[duplicated(xfinite)])
-  
-  uid <- lapply(u, function(i) which(xupdate == i))
-  res <- matrix(xupdate, nrow = 1)
-  
-  if (length(u) > 0) {
-    for (i in seq(length(u))) {
-      nl <- length(uid[[i]])
-      s <- factorial(nl)
-      subres <- matrix(0, nrow = s * nrow(res), ncol = ncol(res))
-      subres[ , uid[[i]]] <- (u[i] + do.call("rbind", combinat::permn(nl)) - 1)[rep(1:s, each = nrow(res)), ]
-      subres[ , -uid[[i]]] <- (res[ , -uid[[i]], drop = FALSE])[rep(1:nrow(res), times = s), ]
-      res <- subres
-    }
-  }
-  res
+  return(res[ , names(x)])
 }

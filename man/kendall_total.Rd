@@ -4,21 +4,20 @@
 \alias{kendall_total}
 \title{Kendall kernel for total rankings}
 \usage{
-kendall_total(x, y = NULL)
+kendall_total(x, y)
 }
 \arguments{
-\item{x}{A vector or a matrix of m1 sequences in rows and orders of n items in cols.
+\item{x, y}{Vector.
 If \code{x} is numeric, the rank vector converted from \code{x} indicate that larger values mean being preferred.
 NAs are not allowed.}
-
-\item{y}{Same as \code{x}. By default "\code{y}" is set equal to "\code{x}".}
 }
 \value{
-Kendall kernel for total rankings defined as type-b (soft version) of kendall kernel.
+Kendall kernel for total rankings,
+where ties are dealt with by type-b soft version of Kendall tau correlation.
 }
 \description{
-Calculates Kendall kernel between total rankings in time \code{O(nlogn)},
-where ties are dealt with type-b (soft version) of kendall kernel
+Calculates Kendall kernel between total rankings in time \code{O(nlogn)}, 
+where ties are dealt with by type-b soft version of Kendall tau correlation.
 }
 \examples{
 x <- c(1.5, 0.1, 0, -4, 0)
