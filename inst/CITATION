@@ -1,0 +1,19 @@
+citHeader("To cite kernrank in publications use:")
+
+citEntry(entry = "Article",
+  title        = "The {K}endall and {M}allows Kernels for Permutations",
+  author       = personList(as.person("Yunlong Jiao"),
+                   as.person("Jean-Philippe Vert")),
+  journal      = "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+  year         = "2018",
+  volume       = "40",
+  number       = "7",
+  pages        = "1755-1769",
+  url          = "https://doi.org/10.1109/TPAMI.2017.2719680",
+
+  textVersion  =
+  paste("Yunlong Jiao, Jean-Philippe Vert (2018).",
+        "The Kendall and Mallows Kernels for Permutations.",
+        "IEEE Transactions on Pattern Analysis and Machine Intelligence, 40(7), 1755-1769.",
+        "URL https://doi.org/10.1109/TPAMI.2017.2719680.")
+)

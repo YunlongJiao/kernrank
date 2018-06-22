@@ -13,7 +13,7 @@ devtools::install_github("YunlongJiao/kernrank")
 
 ## Demo
 
-Please refer to GitHub repos [kendallkernel](https://github.com/YunlongJiao/kendallkernel) and [weightedkendall](https://github.com/YunlongJiao/weightedkendall) for various examples of using the package.
+Please refer to GitHub repos [kendallkernel](https://github.com/YunlongJiao/kendallkernel) and [weightedkendall](https://github.com/YunlongJiao/weightedkendall) for a variety of examples of using the package.
 
 ## References
 
