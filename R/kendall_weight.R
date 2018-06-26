@@ -36,10 +36,6 @@
 #' # Average Kendall kernel
 #' kendall_weight(x, y, method = "aken")
 #' 
-#' # Standard Kendall kernel is equiv to kendall_total
-#' kendall_weight(x, y, method = "ken", normalized = TRUE)
-#' kendall_total(x, y)
-#' 
 #' # Top-1 Kendall kernel is equiv to Standard Kendall kernel
 #' kendall_weight(x, y, method = "ken")
 #' kendall_weight(x, y, method = "top", k = 1)
@@ -48,6 +44,13 @@
 #' u <- 1/(length(x):1 + 1)
 #' kendall_weight(x, y, method = "add", u = u)
 #' kendall_weight(x, y, method = "mult", u = u)
+#' 
+#' # NOTE: In case of ties, standard Kendall kernel implemented by kendall_weight
+#' # is NOT equiv to kendall_total due to different normalization technique!
+#' # kendall_weight breaks ties by averaging over compatible full rankings:
+#' kendall_weight(x, y, method = "ken", normalized = TRUE)
+#' # kendall_total implements type-b of Kendall's tau that handles ties per se:
+#' kendall_total(x, y)
 #' 
 
 kendall_weight <- function(x, y, 
