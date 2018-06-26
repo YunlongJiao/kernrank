@@ -1,38 +1,39 @@
+#' @useDynLib kernrank
+#' @importFrom Rcpp sourceCpp
+#' 
 
-kendall_weight_inner <- function(x, y, method, k, u, normalized)
+kendall_weight_inner <- function(x, y, key, k, u, normalized, 
+                                 eps = 1e-6)
 {
   # Core function for the wrap-up function kendall_weight
   
-  # Convert
-  
   # Step 1 - Calculate y[order(x)]
-  x <- rank(x)
-  y <- rank(y)
-  z <- as.integer(y[order(x)])
+  z <- rank(y)[order(x)]
   n <- length(z)
   
   # Step 2 - Calculate non-inversion number by quicksort deduction
-  key <- as.integer(switch(
-    method,
-    "ken" = 1,
-    "aken" = 2,
-    "top" = 3,
-    "add" = 4,
-    "mult" = 5
-  ))
-  noninv <- kendall_weight_quick(1:n, z, n, key, k, u)
+  noninv <- kendall_weight_quickR(as.integer(1:n), 
+                                  as.integer(z), 
+                                  as.integer(n), 
+                                  as.integer(key), 
+                                  as.integer(k), 
+                                  as.numeric(u))
   
   # Step 3 - Output non-inv number
   if (normalized) {
     s <- switch(
-      method,
-      "ken" = n * (n - 1) / 2,
-      "aken" = sum( pmin(1:n,z) * ((n-1):0) ) / n,
-      "top" = sum( (1:n>=k) & (z>=k) ) * (sum( (1:n>=k) & (z>=k) ) - 1) / 2,
-      "add" = sum(u)^2 + (n - 2) * sum(u * u[z]),
-      "mult" = ( sum(u * u[z])^2 - sum(u^2 * u[z]^2) ) / 2
+      key,
+      "1" = n * (n - 1) / 2, # "ken"
+      "2" = sum( pmin(1:n,z) * ((n-1):0) ) / n, # "aken"
+      "3" = sum( (1:n>=k) & (z>=k) ) * (sum( (1:n>=k) & (z>=k) ) - 1) / 2, # "top"
+      "4" = sum(u)^2 + (n - 2) * sum(u * u[z]), # "add"
+      "5" = ( sum(u * u[z])^2 - sum(u^2 * u[z]^2) ) / 2 # "mult"
     )
-    return(2 * noninv / s - 1)
+    
+    if (abs(s) < eps)
+      return(0)
+    else
+      return(2 * noninv / s - 1)
   } else {
     return(noninv)
   }

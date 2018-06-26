@@ -4,12 +4,31 @@
 \alias{kendall_weight}
 \title{Weighted Kendall kernel for total rankings}
 \usage{
-kendall_weight(x, y)
+kendall_weight(x, y, method = c("aken", "ken", "top", "add", "mult"),
+  k = NULL, u = NULL, normalized = TRUE)
 }
 \arguments{
 \item{x, y}{Vector. 
 If \code{x} is numeric, the rank vector converted from \code{x} indicate that larger values mean being preferred.
 NAs are not allowed.}
+
+\item{method}{Character. The method to perform weighted Kendall kernel. Choices include
+\itemize{
+\item \code{aken} denotes the Average Kendall kernel.
+\item \code{ken} denotes the standard Kendall kernel.
+\item \code{top} denotes the TOP-k Kendall kernel.
+\item \code{add} denotes weighted Kendall kernel with ADDitive weights.
+\item \code{mult} denotes weighted Kendall kernel with MULTiplicative weights.
+}}
+
+\item{k}{Integer. The parameter in top-\code{k} Kendall kernel.
+Top-\code{k} implies ranks larger than k, where larger ranks mean being more preferred.}
+
+\item{u}{Numeric vector. The parameter in additive or multiplicative weighted Kendall kernel.}
+
+\item{normalized}{Logical. Whether to normalize the output kernel value.
+The weighted Kendall kernel elaborated in Jiao and Vert (2018) corresponds to
+the non-normalized version by setting \code{normalized=FALSE}.}
 }
 \value{
 Weighted Kendall kernel for total rankings,
@@ -23,7 +42,22 @@ averaging compatible rankings without ties.
 \examples{
 x <- c(1.5, 0.1, 0, -4, 0)
 y <- c(0, 0, 0, 3, 0)
-kendall_weight(x, y)
+
+# Average Kendall kernel
+kendall_weight(x, y, method = "aken")
+
+# Standard Kendall kernel is equiv to kendall_total
+kendall_weight(x, y, method = "ken", normalized = TRUE)
+kendall_total(x, y)
+
+# Top-1 Kendall kernel is equiv to Standard Kendall kernel
+kendall_weight(x, y, method = "ken")
+kendall_weight(x, y, method = "top", k = 1)
+
+# Additive/multiplicative weights with hyperbolic reduction factor
+u <- 1/(length(x):1 + 1)
+kendall_weight(x, y, method = "add", u = u)
+kendall_weight(x, y, method = "mult", u = u)
 
 }
 \references{

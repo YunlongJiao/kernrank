@@ -1,9 +1,9 @@
 context("Kendall kernel")
 library(kernrank)
 
-n.rep <- 100
+n.rep <- 50
 n.min <- 5
-n.max <- 20
+n.max <- 10
 
 # Errors ------------------------------------------------------------------
 
@@ -26,9 +26,9 @@ for (i in seq(n.rep)) {
 }
 
 for (i in seq(n.rep)) {
-  n <- sample(n.min:n.max, 1)
-  x <- rep(1:5, length.out=n)[sample(n)]
-  y <- rep(1:5, length.out=n)[sample(n)]
+  n <- max(sample(n.min:n.max, 1), 6)
+  x <- rep(1:n.min, length.out=n)[sample(n)]
+  y <- rep(1:n.min, length.out=n)[sample(n)]
   expect_equal(cor(x, y, method = "kendall"), kendall_total(x, y))
   expect_equal(cor(x, y, method = "kendall"), pcaPP::cor.fk(x, y))
 }

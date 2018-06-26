@@ -1,9 +1,9 @@
 context("Weighted Kendall kernel")
 library(kernrank)
 
-n.rep <- 100
+n.rep <- 20
 n.min <- 5
-n.max <- 20
+n.max <- 10
 
 # Errors ------------------------------------------------------------------
 
@@ -18,12 +18,11 @@ expect_error(kendall_weight(x, x))
 # Quick vs naive ----------------------------------------------------------
 
 kendall.naive <- function(x, y){
-  
   stopifnot(!any(is.na(x)) && !any(is.na(y)))
   stopifnot(anyDuplicated(x) == 0 && anyDuplicated(y) == 0)
   x <- rank(x)
   y <- rank(y)
-  
+
   n <- length(x)
   s <- 0
   for (i in 1:n) {
@@ -43,16 +42,16 @@ kendall.naive <- function(x, y){
 
 kendall.quick <- function(x, y){
   # @note Same pseudo code as kendall_weight but implemented in R instead of C++
-  
+
   stopifnot(!any(is.na(x)) && !any(is.na(y)))
   stopifnot(anyDuplicated(x) == 0 && anyDuplicated(y) == 0)
   x <- rank(x)
   y <- rank(y)
-  
+
   # step 1 - y[order(x)]
   z <- y[order(x)]
   n <- length(z)
-  
+
   # step 2 - directly calculate non-inversion number by quick sort
   noninv <- 0
   func <- function(idx){
@@ -64,7 +63,7 @@ kendall.quick <- function(x, y){
     if (length(idx) > 1){
       # randomly pick an index as pivot
       pivot <- sample(idx, 1)
-      
+
       # update noninv
       cnum <- 0
       cmin <- 0
@@ -83,7 +82,7 @@ kendall.quick <- function(x, y){
           cmultweight <- cmultweight + (u[i]*u[z[i]])
         } else {
           idxhigh <- c(idxhigh, i)
-          noninv <<- noninv + 
+          noninv <<- noninv +
             switch(key,
                    "ken" = cnum,
                    "aken" = cmin,
@@ -93,7 +92,7 @@ kendall.quick <- function(x, y){
             )
         }
       }
-      
+
       # deduction
       func(idxhigh)
       func(idxlow)
@@ -101,32 +100,29 @@ kendall.quick <- function(x, y){
   }
   # run deduction to get noninv number
   func(1:n)
-  
+
   # step 3 - output noninv directly
   noninv
 }
 
 for (i in seq(n.rep)) {
   n <- sample(n.min:n.max, 1)
-  x <- sample(n)
-  y <- sample(n)
+  x <- rnorm(n)
+  y <- rnorm(n)
   u <- abs(rnorm(n))
   k <- sample(1:n, 1)
-  key <- sample(c("ken", "aken", "top", "add", "mult"), 1)
-  expect_equal(kendall.naive(x, y), 
-               kendall.quick(x, y))
-  expect_equal(kendall.naive(x, y),
-               kendall_weight(x, y, method = key, k = k, u = u, normalized = FALSE))
-}
-
-# Weighted vs standard ----------------------------------------------------
-
-for (i in seq(n.rep)) {
-  n <- sample(n.min:n.max, 1)
-  x <- rep(1:5, length.out=n)[sample(n)]
-  y <- rep(1:5, length.out=n)[sample(n)]
-  expect_equal(kendall_total(x, y),
+  expect_equal(kendall_weight(x, y, method = "top", k = 1, normalized = TRUE),
                kendall_weight(x, y, method = "ken", normalized = TRUE))
-  expect_equal(kendall_total(x, y),
-               kendall_weight(x, y, method = "top", k = 1, normalized = TRUE))
+  for (key in c("ken", "aken", "top", "add", "mult")) {
+    expect_equal(kendall.naive(x, y),
+                 kendall.quick(x, y))
+    expect_equal(kendall.naive(x, y),
+                 kendall_weight(x, y, method = key, k = k, u = u, normalized = FALSE))
+    
+    ss <- kendall_weight(x, x, method = key, k = k, u = u, normalized = TRUE)
+    if (abs(ss) >= 1e-6) expect_equal(ss, 1)
+    
+    ss <- kendall_weight(x, order(rev(order(x))), method = key, k = k, u = u, normalized = TRUE)
+    if (abs(ss) >= 1e-6) expect_equal(ss, -1)
+  }
 }

@@ -25,7 +25,6 @@
 #' @return Weighted Kendall kernel for total rankings,
 #' where ties (supposed few) are broken by adopting a convolution kernel averaging compatible rankings without ties.
 #' @author Yunlong Jiao
-#' @note 
 #' @export
 #' @keywords Weighted Kendall Kernel TotalRanking
 #' @references 
@@ -61,7 +60,16 @@ kendall_weight <- function(x, y,
   if (any(is.na(x)) || any(is.na(y)))
     stop("\"x\" and \"y\" cannot contain any NAs!")
   
+  # For ease of programming, convert R-readable obj to C-readable obj
   method <- match.arg(method)
+  key <- switch(
+    method,
+    "ken" = 1,
+    "aken" = 2,
+    "top" = 3,
+    "add" = 4,
+    "mult" = 5
+  )
   
   if (method == "top") {
     if (is.null(k))
@@ -69,7 +77,7 @@ kendall_weight <- function(x, y,
     else
       k <- as.integer(k)
   } else {
-    k <- NULL
+    k <- 0L
   }
   
   if (method == "add" || method == "mult") {
@@ -78,7 +86,7 @@ kendall_weight <- function(x, y,
     else
       u <- as.numeric(u)
   } else {
-    u <- NULL
+    u <- rep(0, length(x))
   }
   
   if (xd <- (anyDuplicated(x) > 0)) {
@@ -89,12 +97,12 @@ kendall_weight <- function(x, y,
   }
   
   if (!xd && !yd) {
-    return(kendall_weight_inner(x, y, method, k, u, normalized))
+    return(kendall_weight_inner(x, y, key, k, u, normalized))
   } else if (xd && !yd) {
-    return(mean(apply(x, 1, kendall_weight_inner, y, method, k, u, normalized)))
+    return(mean(apply(x, 1, kendall_weight_inner, y, key, k, u, normalized)))
   } else if (!xd && yd) {
-    return(mean(apply(y, 1, kendall_weight_inner, x, method, k, u, normalized)))
+    return(mean(apply(y, 1, kendall_weight_inner, x, key, k, u, normalized)))
   } else {
-    return(mean(apply(x, 1, function(v) apply(y, 1, kendall_weight_inner, v, method, k, u, normalized))))
+    return(mean(apply(x, 1, function(v) apply(y, 1, kendall_weight_inner, v, key, k, u, normalized))))
   }
 }
